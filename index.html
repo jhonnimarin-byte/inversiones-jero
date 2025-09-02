@@ -27,540 +27,359 @@
         }
         
         * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #f1f5f9;
-            color: #334155;
-            line-height: 1.6;
-            padding: 20px;
+            background: #f1f5f9; 
+            color: #334155; 
+            padding: 20px; 
             min-height: 100vh;
         }
         
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            max-width: 1400px; 
+            margin: auto;
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
+            color: white; 
+            padding: 25px; 
+            border-radius: var(--border-radius); 
+            margin-bottom: 25px; 
+            box-shadow: var(--shadow); 
             text-align: center;
-            border-radius: var(--border-radius);
-            margin-bottom: 25px;
-            box-shadow: var(--shadow);
             position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(-15deg);
         }
         
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2.5rem; 
             margin-bottom: 10px;
-            position: relative;
         }
         
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            position: relative;
-        }
-        
-        .card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
+        .tabs {
+            display: flex; 
+            margin-bottom: 25px; 
+            background: white; 
+            border-radius: var(--border-radius); 
             box-shadow: var(--shadow);
-            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 14px 24px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--gray);
+            white-space: nowrap;
             transition: var(--transition);
+        } 
+        
+        .tab.active {
+            background: var(--primary); 
+            color: white;
         }
         
-        .card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .tab:hover:not(.active) {
+            background: #f1f5f9;
         }
         
-        .card-header {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--dark);
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .tab-content {
+            display: none;
+        } 
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
         }
         
-        .card-header .actions {
-            display: flex;
-            gap: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
             margin-bottom: 30px;
         }
         
         .stat-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: var(--transition);
+            background: white; 
+            border-radius: var(--border-radius); 
+            padding: 20px; 
+            box-shadow: var(--shadow); 
             position: relative;
-            overflow: hidden;
+            transition: var(--transition);
         }
-        
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-        }
-        
-        .stat-card.capital::after { background-color: var(--primary); }
-        .stat-card.loans::after { background-color: var(--info); }
-        .stat-card.pending::after { background-color: var(--warning); }
-        .stat-card.overdue::after { background-color: var(--danger); }
         
         .stat-card:hover {
             transform: translateY(-5px);
         }
         
         .stat-card h3 {
-            font-size: 1rem;
-            margin-bottom: 10px;
+            font-size: 1rem; 
+            margin-bottom: 10px; 
             color: var(--gray);
-            font-weight: 600;
-        }
+        } 
         
         .stat-card .value {
-            font-size: 2.2rem;
+            font-size: 2.2rem; 
             font-weight: 800;
-            margin: 10px 0;
         }
-        
-        .stat-card .capital { color: var(--primary); }
-        .stat-card .loans { color: var(--info); }
-        .stat-card .pending { color: var(--warning); }
-        .stat-card .overdue { color: var(--danger); }
         
         .stat-card .detail {
+            margin-top: 10px;
             font-size: 0.9rem;
             color: var(--gray);
-            margin-top: 5px;
         }
         
-        .stat-card .icon {
-            font-size: 2.5rem;
+        .stat-card.saldo::after {
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 5px; 
+            height: 100%; 
+            background: var(--primary);
+        }
+        
+        .stat-card.clientes::after {
+            background: var(--secondary);
+        }
+        
+        .stat-card.creditos::after {
+            background: var(--accent);
+        }
+        
+        .stat-card.morosidad::after {
+            background: var(--danger);
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--light-gray);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        table {
+            width: 100%; 
+            border-collapse: collapse;
+        } 
+        
+        th, td {
+            padding: 12px 15px; 
+            border-bottom: 1px solid var(--light-gray);
+            text-align: left;
+        } 
+        
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background: #f8fafc;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        button {
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600;
+            transition: var(--transition);
+        } 
+        
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: var(--secondary-dark);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: var(--danger-dark);
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
+        
+        .form-group {
             margin-bottom: 15px;
-            opacity: 0.2;
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background-color: var(--light);
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .btn-success {
-            background-color: var(--success);
-        }
-        
-        .btn-success:hover {
-            background-color: var(--secondary-dark);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-        }
-        
-        .btn-danger:hover {
-            background-color: var(--danger-dark);
-        }
-        
-        .btn-warning {
-            background-color: var(--warning);
-            color: white;
-        }
-        
-        .btn-warning:hover {
-            background-color: #e27807;
-        }
-        
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 0.9rem;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 20px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        th, td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        th {
-            background-color: #f8fafc;
-            font-weight: 700;
-            color: var(--dark);
-            position: sticky;
-            top: 0;
-            font-size: 0.95rem;
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        tr:hover {
-            background-color: #f8fafc;
-        }
-        
-        .alert {
-            padding: 16px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-        
-        .alert i {
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        
-        .alert-info {
-            background-color: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #bfdbfe;
-        }
-        
-        .alert-warning {
-            background-color: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fde68a;
-        }
-        
-        .alert-success {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .status-active {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .status-paid {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-        
-        .status-overdue {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--light-gray);
-            overflow-x: auto;
+        .form-section {
             background: white;
+            padding: 20px;
             border-radius: var(--border-radius);
-            padding: 5px;
             box-shadow: var(--shadow);
+            margin-bottom: 25px;
         }
         
-        .tab {
-            padding: 14px 24px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: var(--transition);
-            white-space: nowrap;
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--gray);
-            border-radius: 6px;
-            margin: 0 2px;
         }
         
-        .tab:hover {
-            background-color: #f1f5f9;
-            color: var(--primary);
+        .badge-success {
+            background: #dcfce7;
+            color: #166534;
         }
         
-        .tab.active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
-            background-color: #eff6ff;
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
         }
         
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .client-info {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .client-info h3 {
-            margin-bottom: 15px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .client-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .client-detail {
-            margin-bottom: 8px;
-        }
-        
-        .client-detail .label {
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .client-detail .value {
-            font-size: 1.1rem;
-            color: var(--dark);
-        }
-        
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: var(--border-radius);
-        }
-        
-        .search-box {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .search-box input {
-            padding-left: 40px;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
         }
         
         .progress-bar {
-            height: 10px;
-            background-color: #e2e8f0;
-            border-radius: 5px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
             overflow: hidden;
             margin-top: 5px;
         }
         
         .progress {
             height: 100%;
-            background-color: var(--success);
-            border-radius: 5px;
-            transition: width 0.5s ease;
+            background: var(--success);
+            border-radius: 4px;
         }
         
-        .backup-section {
-            background: #f8fafc;
-            padding: 25px;
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
             border-radius: var(--border-radius);
-            margin: 25px 0;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .backup-section h3 {
-            margin-bottom: 15px;
-            color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
         }
         
-        .receipt {
-            background: white;
-            border: 2px dashed #cbd5e1;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin: 25px 0;
-            text-align: center;
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
         }
         
-        .receipt-header {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
+        .notification.success {
+            background: var(--success);
         }
         
-        .receipt-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
+        .notification.error {
+            background: var(--danger);
         }
         
-        .receipt-detail {
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 8px;
-            text-align: left;
+        .notification.warning {
+            background: var(--warning);
         }
         
-        .receipt-detail .label {
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        textarea {
-            min-height: 150px;
-            font-family: monospace;
-            resize: vertical;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--gray);
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.3;
-        }
-        
-        .empty-state p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+        .loan-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .action-buttons {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .search-box {
+            padding: 8px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            width: 250px;
         }
         
         @media (max-width: 768px) {
@@ -568,2075 +387,831 @@
                 flex-direction: column;
             }
             
-            .tab {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 5px;
-            }
-            
-            th, td {
-                padding: 12px 10px;
-                font-size: 0.9rem;
+            .form-row {
+                grid-template-columns: 1fr;
             }
             
             .stats-container {
                 grid-template-columns: 1fr;
             }
             
-            .receipt-details {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            button {
+            .search-box {
                 width: 100%;
+                margin-bottom: 10px;
             }
-        }
-        
-        /* Toast notifications */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 1000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .toast.success {
-            border-left: 4px solid var(--success);
-        }
-        
-        .toast.error {
-            border-left: 4px solid var(--danger);
-        }
-        
-        .toast.info {
-            border-left: 4px solid var(--info);
-        }
-        
-        .toast .icon {
-            font-size: 1.5rem;
-        }
-        
-        .toast.success .icon {
-            color: var(--success);
-        }
-        
-        .toast.error .icon {
-            color: var(--danger);
-        }
-        
-        .toast.info .icon {
-            color: var(--info);
-        }
-        
-        /* Loading spinner */
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(37, 99, 235, 0.2);
-            border-radius: 50%;
-            border-top: 3px solid var(--primary);
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-        
-        .modal-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .modal-header h3 {
-            color: var(--dark);
-            font-size: 1.4rem;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            padding: 5px;
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
-        
-        .modal-footer {
-            padding: 20px 25px;
-            border-top: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-        
-        /* Import table styles */
-        .import-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        .import-table th, .import-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        
-        .import-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        .import-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        .import-table tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .import-instructions {
-            background-color: #f8fafc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .import-instructions ol {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .import-instructions li {
-            margin-bottom: 8px;
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-hand-holding-usd"></i> Inversiones Jero</h1>
-            <p>Sistema Completo de Gestión de Préstamos</p>
-        </header>
-        
-        <!-- Tabs -->
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</div>
-            <div class="tab" onclick="showTab('payments')"><i class="fas fa-money-bill-wave"></i> Registrar Pagos</div>
-            <div class="tab" onclick="showTab('clients')"><i class="fas fa-users"></i> Gestión de Clientes</div>
-            <div class="tab" onclick="showTab('loans')"><i class="fas fa-file-contract"></i> Nuevos Créditos</div>
-            <div class="tab" onclick="showTab('import')"><i class="fas fa-file-import"></i> Importar Datos</div>
-            <div class="tab" onclick="showTab('backup')"><i class="fas fa-database"></i> Respaldo de Datos</div>
+<div class="container">
+<header>
+    <h1><i class="fas fa-hand-holding-usd"></i> Inversiones Jero</h1>
+    <p>Sistema Completo de Gestión de Préstamos</p>
+</header>
+
+<div class="tabs">
+    <div class="tab active" onclick="showTab('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</div>
+    <div class="tab" onclick="showTab('payments')"><i class="fas fa-money-bill-wave"></i> Registrar Pagos</div>
+    <div class="tab" onclick="showTab('clients')"><i class="fas fa-users"></i> Clientes</div>
+    <div class="tab" onclick="showTab('loans')"><i class="fas fa-file-contract"></i> Nuevos Créditos</div>
+    <div class="tab" onclick="showTab('history')"><i class="fas fa-history"></i> Historial</div>
+</div>
+
+<!-- Dashboard -->
+<div class="tab-content active" id="dashboard-tab">
+    <div class="stats-container">
+        <div class="stat-card saldo">
+            <h3><i class="fas fa-wallet"></i> Saldo por Cobrar</h3>
+            <div class="value" id="total-saldo">$0</div>
+            <div class="detail">Monto total pendiente de cobro</div>
+        </div>
+        <div class="stat-card clientes">
+            <h3><i class="fas fa-users"></i> Total Clientes</h3>
+            <div class="value" id="total-clientes">0</div>
+            <div class="detail">Clientes registrados en el sistema</div>
+        </div>
+        <div class="stat-card creditos">
+            <h3><i class="fas fa-file-invoice-dollar"></i> Créditos Activos</h3>
+            <div class="value" id="total-creditos">0</div>
+            <div class="detail">Préstamos en curso</div>
+        </div>
+        <div class="stat-card morosidad">
+            <h3><i class="fas fa-exclamation-triangle"></i> Morosidad</h3>
+            <div class="value" id="tasa-morosidad">0%</div>
+            <div class="detail">Porcentaje de pagos atrasados</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <span>Préstamos Activos</span>
+            <input type="text" class="search-box" placeholder="Buscar préstamo..." onkeyup="filterLoans(this.value)">
+        </div>
+        <div class="table-container">
+            <table id="loans-table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Capital</th>
+                        <th>Total Crédito</th>
+                        <th>Cuotas</th>
+                        <th>Pagadas</th>
+                        <th>Saldo</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <span>Próximos Vencimientos</span>
+        </div>
+        <div class="table-container">
+            <table id="due-table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Próximo Pago</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Registrar Pagos -->
+<div class="tab-content" id="payments-tab">
+    <div class="form-section">
+        <h2><i class="fas fa-money-bill-wave"></i> Registrar Pago</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="payment-client">Cliente</label>
+                <select id="payment-client" onchange="loadClientLoans()">
+                    <option value="">Seleccionar cliente</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="payment-loan">Crédito</label>
+                <select id="payment-loan">
+                    <option value="">Seleccionar crédito</option>
+                </select>
+            </div>
         </div>
         
-        <!-- Dashboard -->
-        <div class="tab-content active" id="dashboard-tab">
-            <!-- Estadísticas -->
-            <div class="stats-container">
-                <div class="stat-card capital">
-                    <i class="fas fa-coins icon"></i>
-                    <h3>Total Capital Prestado</h3>
-                    <div class="value capital" id="total-capital">$0</div>
-                    <div class="detail">Monto total en préstamos activos</div>
-                </div>
-                <div class="stat-card loans">
-                    <i class="fas fa-file-invoice-dollar icon"></i>
-                    <h3>Préstamos Activos</h3>
-                    <div class="value loans" id="total-loans">0</div>
-                    <div class="detail">Préstamos en curso</div>
-                </div>
-                <div class="stat-card pending">
-                    <i class="fas fa-clock icon"></i>
-                    <h3>Cuotas Pendientes</h3>
-                    <div class="value pending" id="total-pending">0</div>
-                    <div class="detail">Cuotas por cobrar</div>
-                </div>
-                <div class="stat-card overdue">
-                    <i class="fas fa-exclamation-triangle icon"></i>
-                    <h3>Clientes con Pagos Atrasados</h3>
-                    <div class="value overdue" id="total-overdue">0</div>
-                    <div class="detail">Clientes en mora</div>
-                </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="payment-amount">Monto del pago</label>
+                <input type="number" id="payment-amount" placeholder="0.00">
             </div>
-            
-            <!-- Filtros y búsqueda -->
-            <div class="card">
-                <div class="card-header">
-                    <span>Filtros de Búsqueda</span>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="search-client">Buscar Cliente</label>
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="search-client" placeholder="Nombre o teléfono del cliente" onkeyup="filterLoans()">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="filter-status">Filtrar por Estado</label>
-                        <select id="filter-status" onchange="filterLoans()">
-                            <option value="all">Todos los estados</option>
-                            <option value="active">Activos</option>
-                            <option value="overdue">Atrasados</option>
-                            <option value="completed">Completados</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="payment-date">Fecha del pago</label>
+                <input type="date" id="payment-date">
             </div>
-            
-            <!-- Todos los Préstamos -->
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-list"></i> Todos los Préstamos</span>
-                    <div>Total: <span id="loans-count">0</span> préstamos</div>
-                </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="payment-notes">Notas (opcional)</label>
+            <input type="text" id="payment-notes" placeholder="Observaciones del pago">
+        </div>
+        
+        <div class="form-group">
+            <button onclick="registerPayment()" class="btn-success">
+                <i class="fas fa-check-circle"></i> Registrar Pago
+            </button>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <span>Información del Crédito</span>
+        </div>
+        <div id="loan-info" style="padding: 20px;">
+            <p>Seleccione un crédito para ver los detalles</p>
+        </div>
+    </div>
+</div>
+
+<!-- Clientes -->
+<div class="tab-content" id="clients-tab">
+    <div class="form-section">
+        <h2><i class="fas fa-user-plus"></i> Agregar Cliente</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="new-client-name">Nombre completo</label>
+                <input type="text" id="new-client-name" placeholder="Nombre y apellido">
+            </div>
+            <div class="form-group">
+                <label for="new-client-phone">Teléfono</label>
+                <input type="text" id="new-client-phone" placeholder="Número de contacto">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="new-client-email">Email (opcional)</label>
+                <input type="email" id="new-client-email" placeholder="correo@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label for="new-client-address">Dirección (opcional)</label>
+                <input type="text" id="new-client-address" placeholder="Dirección completa">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button onclick="addNewClient()" class="btn-success">
+                <i class="fas fa-save"></i> Guardar Cliente
+            </button>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <span>Lista de Clientes</span>
+            <input type="text" class="search-box" placeholder="Buscar cliente..." onkeyup="filterClients(this.value)">
+        </div>
+        <div class="table-container">
+            <table id="clients-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Créditos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Créditos -->
+<div class="tab-content" id="loans-tab">
+    <div class="form-section">
+        <h2><i class="fas fa-file-contract"></i> Registrar Nuevo Crédito</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="loan-client">Cliente</label>
+                <select id="loan-client">
+                    <option value="">Seleccionar cliente</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="loan-date">Fecha de inicio</label>
+                <input type="date" id="loan-date">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="loan-capital">Capital Inicial ($)</label>
+                <input type="number" id="loan-capital" placeholder="0.00" oninput="calculateLoan()">
+            </div>
+            <div class="form-group">
+                <label for="loan-interest">Tasa de interés (% mensual)</label>
+                <input type="number" id="loan-interest" value="5" oninput="calculateLoan()">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="loan-installments">Número de cuotas</label>
+                <input type="number" id="loan-installments" placeholder="0" oninput="calculateLoan()">
+            </div>
+            <div class="form-group">
+                <label for="loan-value">Valor de cada cuota ($)</label>
+                <input type="number" id="loan-value" placeholder="0.00" readonly>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="loan-total">Total a pagar ($)</label>
+                <input type="number" id="loan-total" placeholder="0.00" readonly>
+            </div>
+            <div class="form-group">
+                <label for="loan-notes">Notas (opcional)</label>
+                <input type="text" id="loan-notes" placeholder="Observaciones del crédito">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button onclick="addNewLoan()" class="btn-success">
+                <i class="fas fa-check-circle"></i> Registrar Crédito
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Historial -->
+<div class="tab-content" id="history-tab">
+    <div class="card">
+        <div class="card-header">
+            <span>Historial de Pagos</span>
+            <input type="text" class="search-box" placeholder="Buscar pago..." onkeyup="filterPayments(this.value)">
+        </div>
+        <div class="table-container">
+            <table id="payments-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Monto</th>
+                        <th>Crédito</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notification-text"></span>
+</div>
+</div>
+
+<script>
+// Variables globales
+let clientData = [];
+let nextClientId = 1;
+let nextLoanId = 1;
+let nextPaymentId = 1;
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    // Establecer fecha actual en los campos de fecha
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('payment-date').value = today;
+    document.getElementById('loan-date').value = today;
+    
+    // Cargar datos guardados
+    loadData();
+    
+    // Actualizar la interfaz
+    updateStats();
+    renderClients();
+    renderLoans();
+    renderPayments();
+    loadClientDropdowns();
+});
+
+// Funciones de persistencia de datos
+function saveData() {
+    const data = {
+        clientData,
+        nextClientId,
+        nextLoanId,
+        nextPaymentId
+    };
+    localStorage.setItem('inversionesJeroData', JSON.stringify(data));
+}
+
+function loadData() {
+    const savedData = localStorage.getItem('inversionesJeroData');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        clientData = data.clientData || [];
+        nextClientId = data.nextClientId || 1;
+        nextLoanId = data.nextLoanId || 1;
+        nextPaymentId = data.nextPaymentId || 1;
+    }
+}
+
+// Funciones de interfaz
+function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tab + '-tab').classList.add('active');
+    
+    // Encontrar la pestaña clickeada y activarla
+    const tabs = document.querySelectorAll('.tab');
+    for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].textContent.includes(tab.charAt(0).toUpperCase() + tab.slice(1)) || 
+            tabs[i].getAttribute('onclick').includes(tab)) {
+            tabs[i].classList.add('active');
+            break;
+        }
+    }
+    
+    // Acciones específicas por pestaña
+    if (tab === 'clients') {
+        renderClients();
+    }
+    if (tab === 'loans' || tab === 'payments') {
+        loadClientDropdowns();
+    }
+    if (tab === 'history') {
+        renderPayments();
+    }
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    const notificationText = document.getElementById('notification-text');
+    
+    notificationText.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.classList.add('show');
+    
+    // Icono según el tipo
+    const icon = notification.querySelector('i');
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 
+                     type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-info-circle';
+    
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// Funciones de clientes
+function addNewClient() {
+    const name = document.getElementById('new-client-name').value.trim();
+    const phone = document.getElementById('new-client-phone').value.trim();
+    const email = document.getElementById('new-client-email').value.trim();
+    const address = document.getElementById('new-client-address').value.trim();
+    
+    if (!name || !phone) {
+        showNotification('Por favor complete nombre y teléfono', 'error');
+        return;
+    }
+    
+    clientData.push({
+        id: nextClientId++,
+        nombre: name,
+        telefono: phone,
+        email: email || '',
+        direccion: address || '',
+        creditos: [],
+        fechaRegistro: new Date().toISOString().split('T')[0]
+    });
+    
+    saveData();
+    renderClients();
+    loadClientDropdowns();
+    updateStats();
+    
+    // Limpiar formulario
+    document.getElementById('new-client-name').value = '';
+    document.getElementById('new-client-phone').value = '';
+    document.getElementById('new-client-email').value = '';
+    document.getElementById('new-client-address').value = '';
+    
+    showNotification('Cliente agregado correctamente');
+}
+
+function renderClients() {
+    const tbody = document.querySelector('#clients-table tbody');
+    tbody.innerHTML = '';
+    
+    clientData.forEach(c => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${c.nombre}</td>
+                <td>${c.telefono}</td>
+                <td>${c.email || 'N/A'}</td>
+                <td>${c.creditos.length}</td>
+                <td class="action-buttons">
+                    <button class="btn-sm" onclick="viewClient(${c.id})"><i class="fas fa-eye"></i></button>
+                    <button class="btn-sm btn-warning" onclick="editClient(${c.id})"><i class="fas fa-edit"></i></button>
+                    <button class="btn-sm btn-danger" onclick="deleteClient(${c.id})"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function filterClients(query) {
+    const rows = document.querySelectorAll('#clients-table tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+    });
+}
+
+function loadClientDropdowns() {
+    const paymentClient = document.getElementById('payment-client');
+    const loanClient = document.getElementById('loan-client');
+    
+    paymentClient.innerHTML = '<option value="">Seleccionar cliente</option>';
+    loanClient.innerHTML = '<option value="">Seleccionar cliente</option>';
+    
+    clientData.forEach(c => {
+        paymentClient.innerHTML += `<option value="${c.id}">${c.nombre} - ${c.telefono}</option>`;
+        loanClient.innerHTML += `<option value="${c.id}">${c.nombre} - ${c.telefono}</option>`;
+    });
+}
+
+// Funciones de préstamos
+function calculateLoan() {
+    const capital = parseFloat(document.getElementById('loan-capital').value) || 0;
+    const interest = parseFloat(document.getElementById('loan-interest').value) || 0;
+    const installments = parseInt(document.getElementById('loan-installments').value) || 0;
+    
+    if (capital > 0 && installments > 0) {
+        // Cálculo de interés compuesto para cada cuota
+        const monthlyRate = interest / 100;
+        const installmentValue = capital * monthlyRate * Math.pow(1 + monthlyRate, installments) / (Math.pow(1 + monthlyRate, installments) - 1);
+        const total = installmentValue * installments;
+        
+        document.getElementById('loan-value').value = installmentValue.toFixed(2);
+        document.getElementById('loan-total').value = total.toFixed(2);
+    }
+}
+
+function addNewLoan() {
+    const clientId = document.getElementById('loan-client').value;
+    const capital = parseFloat(document.getElementById('loan-capital').value);
+    const interest = parseFloat(document.getElementById('loan-interest').value);
+    const installments = parseInt(document.getElementById('loan-installments').value);
+    const startDate = document.getElementById('loan-date').value;
+    const notes = document.getElementById('loan-notes').value.trim();
+    
+    if (!clientId || !capital || !installments) {
+        showNotification('Por favor complete todos los campos obligatorios', 'error');
+        return;
+    }
+    
+    const monthlyRate = interest / 100;
+    const installmentValue = capital * monthlyRate * Math.pow(1 + monthlyRate, installments) / (Math.pow(1 + monthlyRate, installments) - 1);
+    const total = installmentValue * installments;
+    
+    const loan = {
+        id: nextLoanId++,
+        capitalInicial: capital,
+        tasaInteres: interest,
+        cuotasTotales: installments,
+        valorCuota: parseFloat(installmentValue.toFixed(2)),
+        cuotasPagadas: 0,
+        saldoPendiente: parseFloat(total.toFixed(2)),
+        totalCredito: parseFloat(total.toFixed(2)),
+        fechaInicio: startDate,
+        estado: 'Activo',
+        notas: notes,
+        pagos: []
+    };
+    
+    const client = clientData.find(c => c.id == clientId);
+    client.creditos.push(loan);
+    
+    saveData();
+    renderLoans();
+    updateStats();
+    
+    // Limpiar formulario
+    document.getElementById('loan-capital').value = '';
+    document.getElementById('loan-installments').value = '';
+    document.getElementById('loan-value').value = '';
+    document.getElementById('loan-total').value = '';
+    document.getElementById('loan-notes').value = '';
+    
+    showNotification('Crédito registrado correctamente');
+}
+
+function renderLoans() {
+    const tbody = document.querySelector('#loans-table tbody');
+    const dueTbody = document.querySelector('#due-table tbody');
+    tbody.innerHTML = '';
+    dueTbody.innerHTML = '';
+    
+    // Calcular próximos vencimientos (próximos 7 días)
+    const today = new Date();
+    const nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 7);
+    
+    clientData.forEach(c => {
+        c.creditos.forEach(l => {
+            if (l.estado === 'Activo') {
+                const progress = (l.cuotasPagadas / l.cuotasTotales) * 100;
+                let status = 'Al día';
+                let statusClass = 'badge-success';
                 
-                <div id="loans-table-container">
-                    <table id="loans-table">
-                        <thead>
+                if (l.cuotasPagadas < l.cuotasTotales) {
+                    // Simular fecha de próximo pago (cada 30 días desde inicio)
+                    const startDate = new Date(l.fechaInicio);
+                    const nextPaymentDate = new Date(startDate);
+                    nextPaymentDate.setDate(startDate.getDate() + (l.cuotasPagadas * 30));
+                    
+                    if (nextPaymentDate < today) {
+                        status = 'Atrasado';
+                        statusClass = 'badge-danger';
+                    } else if (nextPaymentDate <= nextWeek) {
+                        status = 'Próximo a vencer';
+                        statusClass = 'badge-warning';
+                        
+                        // Agregar a la tabla de vencimientos
+                        dueTbody.innerHTML += `
                             <tr>
-                                <th>Cliente</th>
-                                <th>Teléfono</th>
-                                <th>Capital</th>
-                                <th>Fecha Inicio</th>
-                                <th>Cuotas</th>
-                                <th>Pagadas</th>
-                                <th>Valor Cuota</th>
-                                <th>Saldo Pendiente</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+                                <td>${c.nombre}</td>
+                                <td>${nextPaymentDate.toLocaleDateString()}</td>
+                                <td>$${l.valorCuota.toFixed(2)}</td>
+                                <td><span class="badge ${statusClass}">${status}</span></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Los datos se cargarán dinámicamente con JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div id="loans-empty" class="empty-state" style="display: none;">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <p>No hay préstamos registrados</p>
-                    <button onclick="showTab('loans')" class="btn-success">
-                        <i class="fas fa-plus"></i> Registrar primer préstamo
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Registrar Pagos -->
-        <div class="tab-content" id="payments-tab">
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-money-bill-wave"></i> Registrar Pagos de Clientes</span>
-                </div>
-                
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                        <strong>Instrucciones:</strong> Seleccione un cliente y su crédito, luego ingrese el monto del pago.
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="payment-client">Seleccionar Cliente</label>
-                        <select id="payment-client" onchange="loadClientLoans()">
-                            <option value="">-- Seleccionar cliente --</option>
-                            <!-- Los clientes se cargarán dinámicamente -->
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="payment-loan">Seleccionar Crédito</label>
-                        <select id="payment-loan">
-                            <option value="">-- Seleccionar crédito --</option>
-                            <!-- Los créditos se cargarán dinámicamente -->
-                        </select>
-                    </div>
-                </div>
-                
-                <div id="loan-details" class="client-info" style="display: none;">
-                    <h3><i class="fas fa-info-circle"></i> Detalles del Crédito</h3>
-                    <div class="client-details">
-                        <div class="client-detail">
-                            <div class="label">Monto Original</div>
-                            <div class="value" id="detail-capital">$0</div>
-                        </div>
-                        <div class="client-detail">
-                            <div class="label">Valor Cuota</div>
-                            <div class="value" id="detail-installment">$0</div>
-                        </div>
-                        <div class="client-detail">
-                            <div class="label">Cuotas Pagadas</div>
-                            <div class="value" id="detail-paid">0/0</div>
-                        </div>
-                        <div class="client-detail">
-                            <div class="label">Saldo Pendiente</div>
-                            <div class="value" id="detail-balance">$0</div>
-                        </div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" id="progress-bar" style="width: 0%"></div>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="payment-amount">Monto del Pago</label>
-                        <input type="number" id="payment-amount" placeholder="Ingrese el monto del pago" oninput="calculateInstallments()">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="payment-date">Fecha del Pago</label>
-                        <input type="date" id="payment-date">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="payment-notes">Notas Adicionales (Opcional)</label>
-                    <input type="text" id="payment-notes" placeholder="Información adicional sobre el pago">
-                </div>
-                
-                <div id="installment-calculation" class="alert alert-info" style="display: none;">
-                    <i class="fas fa-calculator"></i>
-                    <div>
-                        Este pago cubrirá <strong id="installment-count">0</strong> cuota(s) completa(s) y dejará un excedente de <strong id="installment-extra">$0</strong>.
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button onclick="registerPayment()" class="btn-success">
-                        <i class="fas fa-money-bill-wave"></i> Registrar Pago
-                    </button>
-                    <button onclick="clearPaymentForm()" class="btn-warning">
-                        <i class="fas fa-times"></i> Limpiar Formulario
-                    </button>
-                </div>
-                
-                <!-- Comprobante de Pago -->
-                <div id="payment-receipt" class="receipt" style="display: none;">
-                    <div class="receipt-header">Comprobante de Pago - Inversiones Jero</div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="label">Fecha:</div>
-                            <div id="receipt-date"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Cliente:</div>
-                            <div id="receipt-client"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Monto Pagado:</div>
-                            <div id="receipt-amount"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Crédito:</div>
-                            <div id="receipt-loan"></div>
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="label">Cuotas Pagadas:</div>
-                            <div id="receipt-paid"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Cuotas Pendientes:</div>
-                            <div id="receipt-pending"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Saldo Anterior:</div>
-                            <div id="receipt-previous"></div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="label">Nuevo Saldo:</div>
-                            <div id="receipt-newbalance"></div>
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        <button onclick="printReceipt()" class="btn-success">
-                            <i class="fas fa-print"></i> Imprimir Comprobante
-                        </button>
-                        <button onclick="closeReceipt()" class="btn-warning">
-                            <i class="fas fa-times"></i> Cerrar Comprobante
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Gestión de Clientes -->
-        <div class="tab-content" id="clients-tab">
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-users"></i> Gestión de Clientes</span>
-                    <div class="actions">
-                        <button onclick="clearClientForm()" class="btn-warning btn-sm">
-                            <i class="fas fa-times"></i> Limpiar
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                        <strong>Instrucciones:</strong> Complete el formulario para agregar un nuevo cliente.
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="new-client-name">Nombre Completo *</label>
-                        <input type="text" id="new-client-name" placeholder="Ej: Juan Pérez">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="new-client-phone">Teléfono *</label>
-                        <input type="text" id="new-client-phone" placeholder="Ej: 2284123456">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="new-client-address">Dirección</label>
-                    <input type="text" id="new-client-address" placeholder="Ej: Calle Principal 123">
-                </div>
-                
-                <div class="form-group">
-                    <label for="new-client-notes">Notas Adicionales</label>
-                    <textarea id="new-client-notes" placeholder="Información adicional sobre el cliente"></textarea>
-                </div>
-                
-                <button onclick="addNewClient()" class="btn-success">
-                    <i class="fas fa-user-plus"></i> Agregar Cliente
-                </button>
-                
-                <div class="card-header" style="margin-top: 30px;">
-                    <span><i class="fas fa-list"></i> Lista de Clientes</span>
-                    <div class="actions">
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="search-clients" placeholder="Buscar clientes..." onkeyup="filterClients()">
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="clients-table-container">
-                    <table id="clients-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Dirección</th>
-                                <th>Créditos Activos</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Los datos se cargarán dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div id="clients-empty" class="empty-state" style="display: none;">
-                    <i class="fas fa-users"></i>
-                    <p>No hay clientes registrados</p>
-                    <p>Agregue su primer cliente para comenzar</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Nuevos Créditos -->
-        <div class="tab-content" id="loans-tab">
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-file-contract"></i> Registrar Nuevo Crédito</span>
-                </div>
-                
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                        <strong>Instrucciones:</strong> Complete el formulario para agregar un nuevo crédito a un cliente.
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="loan-client">Seleccionar Cliente</label>
-                    <select id="loan-client">
-                        <option value="">-- Seleccionar cliente --</option>
-                        <!-- Los clientes se cargarán dinámicamente -->
-                    </select>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="loan-amount">Monto del Crédito</label>
-                        <input type="number" id="loan-amount" placeholder="Ej: 100000">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="loan-date">Fecha de Inicio</label>
-                        <input type="date" id="loan-date">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="loan-installments">Número de Cuotas</label>
-                        <input type="number" id="loan-installments" placeholder="Ej: 12">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="loan-value">Valor de Cada Cuota</label>
-                        <input type="number" id="loan-value" placeholder="Ej: 10000">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="loan-periodicity">Periodicidad de Pago</label>
-                        <select id="loan-periodicity">
-                            <option value="diario">Diario</option>
-                            <option value="semanal" selected>Semanal</option>
-                            <option value="quincenal">Quincenal</option>
-                            <option value="mensual">Mensual</option>
-                            <option value="acordado">Fecha acordada</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="loan-payday">Día de Pago</label>
-                        <input type="text" id="loan-payday" placeholder="Ej: Lunes, Viernes, 15 de cada mes">
-                    </div>
-                </div>
-                
-                <button onclick="addNewLoan()" class="btn-success">
-                    <i class="fas fa-hand-holding-usd"></i> Registrar Crédito
-                </button>
-            </div>
-        </div>
-        
-        <!-- Importar Datos -->
-        <div class="tab-content" id="import-tab">
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-file-import"></i> Importar Datos desde Tabla</span>
-                </div>
-                
-                <div class="import-instructions">
-                    <h3><i class="fas fa-info-circle"></i> Instrucciones de Importación</h3>
-                    <p>Para importar datos desde una tabla, siga estos pasos:</p>
-                    <ol>
-                        <li>Prepare sus datos en formato de tabla con las columnas: Cliente, Teléfono, Dirección, Fecha Inicio, Capital, Valor Cuota, Cantidad Cuotas, Cuotas Pagas, Periodo, Día Pago</li>
-                        <li>Copie toda la tabla (incluyendo los encabezados)</li>
-                        <li>Péguela en el área de texto a continuación</li>
-                        <li>Haga clic en "Procesar Datos"</li>
-                        <li>Revise los datos importados y confirme la importación</li>
-                    </ol>
-                    <p><strong>Nota:</strong> Esta acción reemplazará todos los datos existentes en el sistema.</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="import-data">Pegar datos de la tabla</label>
-                    <textarea id="import-data" placeholder="Pegue aquí los datos en formato de tabla. Asegúrese de incluir los encabezados de columna." rows="10"></textarea>
-                </div>
-                
-                <div class="action-buttons">
-                    <button onclick="processImportedData()" class="btn-success">
-                        <i class="fas fa-cogs"></i> Procesar Datos
-                    </button>
-                    <button onclick="clearImportForm()" class="btn-warning">
-                        <i class="fas fa-times"></i> Limpiar
-                    </button>
-                </div>
-                
-                <div id="import-preview" style="display: none; margin-top: 30px;">
-                    <div class="card-header">
-                        <span>Vista Previa de Datos Importados</span>
-                    </div>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            Revise los datos a continuación antes de confirmar la importación.
-                        </div>
-                    </div>
-                    <div id="import-preview-table" style="overflow-x: auto;">
-                        <!-- La vista previa de la tabla se generará aquí -->
-                    </div>
-                    <div class="action-buttons" style="margin-top: 20px;">
-                        <button onclick="confirmImport()" class="btn-success">
-                            <i class="fas fa-check"></i> Confirmar Importación
-                        </button>
-                        <button onclick="cancelImport()" class="btn-danger">
-                            <i class="fas fa-times"></i> Cancelar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Respaldo de Datos -->
-        <div class="tab-content" id="backup-tab">
-            <div class="card">
-                <div class="card-header">
-                    <span><i class="fas fa-database"></i> Respaldo y Sincronización de Datos</span>
-                </div>
-                
-                <div class="backup-section">
-                    <h3><i class="fas fa-download"></i> Exportar Datos</h3>
-                    <p>Guarde un respaldo de todos sus datos en un archivo para transferirlo a otro dispositivo.</p>
-                    <button onclick="exportData()" class="btn-success">
-                        <i class="fas fa-download"></i> Exportar Datos
-                    </button>
-                </div>
-                
-                <div class="backup-section">
-                    <h3><i class="fas fa-upload"></i> Importar Datos</h3>
-                    <p>Importe datos desde un archivo previamente exportado.</p>
-                    <div class="form-group">
-                        <label for="import-file">Seleccionar archivo de respaldo</label>
-                        <input type="file" id="import-file" accept=".json">
-                    </div>
-                    <button onclick="importData()" class="btn-warning">
-                        <i class="fas fa-upload"></i> Importar Datos
-                    </button>
-                </div>
-                
-                <div class="backup-section">
-                    <h3><i class="fas fa-copy"></i> Copiar Datos Manualmente</h3>
-                    <p>Copie y pegue este texto para transferir datos entre dispositivos manualmente.</p>
-                    <div class="form-group">
-                        <label for="data-export">Datos de la aplicación (JSON)</label>
-                        <textarea id="data-export" readonly></textarea>
-                    </div>
-                    <button onclick="copyData()" class="btn-success">
-                        <i class="fas fa-copy"></i> Copiar al Portapapeles
-                    </button>
-                    
-                    <div class="form-group" style="margin-top: 20px;">
-                        <label for="data-import">Pegar datos para importar</label>
-                        <textarea id="data-import" placeholder="Pegue aquí los datos en formato JSON"></textarea>
-                    </div>
-                    <button onclick="importManualData()" class="btn-warning">
-                        <i class="fas fa-file-import"></i> Importar Datos Pegados
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para editar cliente -->
-    <div class="modal-overlay" id="edit-client-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-edit"></i> Editar Cliente</h3>
-                <button class="modal-close" onclick="closeModal('edit-client-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="edit-client-name">Nombre Completo *</label>
-                    <input type="text" id="edit-client-name">
-                </div>
-                <div class="form-group">
-                    <label for="edit-client-phone">Teléfono *</label>
-                    <input type="text" id="edit-client-phone">
-                </div>
-                <div class="form-group">
-                    <label for="edit-client-address">Dirección</label>
-                    <input type="text" id="edit-client-address">
-                </div>
-                <div class="form-group">
-                    <label for="edit-client-notes">Notas Adicionales</label>
-                    <textarea id="edit-client-notes"></textarea>
-                </div>
-                <input type="hidden" id="edit-client-id">
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal('edit-client-modal')" class="btn-warning">Cancelar</button>
-                <button onclick="saveClientChanges()" class="btn-success">Guardar Cambios</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para editar crédito -->
-    <div class="modal-overlay" id="edit-loan-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Editar Crédito</h3>
-                <button class="modal-close" onclick="closeModal('edit-loan-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="edit-loan-client">Cliente</label>
-                    <input type="text" id="edit-loan-client" readonly>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="edit-loan-amount">Monto del Crédito</label>
-                        <input type="number" id="edit-loan-amount">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-loan-date">Fecha de Inicio</label>
-                        <input type="date" id="edit-loan-date">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="edit-loan-installments">Número de Cuotas</label>
-                        <input type="number" id="edit-loan-installments">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-loan-value">Valor de Cada Cuota</label>
-                        <input type="number" id="edit-loan-value">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="edit-loan-paid">Cuotas Pagadas</label>
-                        <input type="number" id="edit-loan-paid">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-loan-balance">Saldo Pendiente</label>
-                        <input type="number" id="edit-loan-balance">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="edit-loan-periodicity">Periodicidad de Pago</label>
-                        <select id="edit-loan-periodicity">
-                            <option value="diario">Diario</option>
-                            <option value="semanal">Semanal</option>
-                            <option value="quincenal">Quincenal</option>
-                            <option value="mensual">Mensual</option>
-                            <option value="acordado">Fecha acordada</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-loan-payday">Día de Pago</label>
-                        <input type="text" id="edit-loan-payday">
-                    </div>
-                </div>
-                <input type="hidden" id="edit-loan-id">
-                <input type="hidden" id="edit-loan-client-id">
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal('edit-loan-modal')" class="btn-warning">Cancelar</button>
-                <button onclick="saveLoanChanges()" class="btn-success">Guardar Cambios</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast notification -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle icon"></i>
-        <div class="toast-message">Operación realizada con éxito</div>
-    </div>
-
-    <script>
-        // Datos iniciales
-        let clientData = [];
-        let paymentData = [];
-        let nextClientId = 1;
-        let nextLoanId = 1;
-        let nextPaymentId = 1;
-        
-        // Datos importados temporalmente
-        let importedData = [];
-        
-        // Función para inicializar datos de ejemplo
-        function initializeData() {
-            // Datos de clientes
-            clientData = [
-                {
-                    id: nextClientId++,
-                    nombre: "Aldana Mortera",
-                    telefono: "2284586696",
-                    direccion: "Barrio ceco",
-                    notas: "",
-                    creditos: [
-                        {
-                            id: nextLoanId++,
-                            fechaInicio: "2023-08-30",
-                            capital: 150000,
-                            valorCuota: 36000,
-                            cuotasTotales: 6,
-                            cuotasPagadas: 0,
-                            saldoPendiente: 150000,
-                            periodo: "semanal",
-                            diaPago: "Domingo",
-                            estado: "active"
-                        }
-                    ]
-                },
-                {
-                    id: nextClientId++,
-                    nombre: "Silvia Jason",
-                    telefono: "2284613335",
-                    direccion: "belgrano 6051",
-                    notas: "",
-                    creditos: [
-                        {
-                            id: nextLoanId++,
-                            fechaInicio: "2023-08-03",
-                            capital: 200000,
-                            valorCuota: 55000,
-                            cuotasTotales: 5,
-                            cuotasPagadas: 3,
-                            saldoPendiente: 110000,
-                            periodo: "semanal",
-                            diaPago: "Sabado",
-                            estado: "active"
-                        }
-                    ]
-                },
-                {
-                    id: nextClientId++,
-                    nombre: "Yesica Roldan",
-                    telefono: "2284214461",
-                    direccion: "leloir",
-                    notas: "",
-                    creditos: [
-                        {
-                            id: nextLoanId++,
-                            fechaInicio: "2023-08-30",
-                            capital: 50000,
-                            valorCuota: 17000,
-                            cuotasTotales: 4,
-                            cuotasPagadas: 0,
-                            saldoPendiente: 50000,
-                            periodo: "semanal",
-                            diaPago: "Sabado",
-                            estado: "active"
-                        }
-                    ]
-                }
-            ];
-            
-            // Guardar datos en localStorage
-            saveData();
-            
-            // Renderizar todas las tablas
-            renderAllTables();
-            loadClientDropdowns();
-            updateStats();
-        }
-        
-        // Función para guardar datos en localStorage
-        function saveData() {
-            const dataToSave = {
-                clientData: clientData,
-                paymentData: paymentData,
-                nextClientId: nextClientId,
-                nextLoanId: nextLoanId,
-                nextPaymentId: nextPaymentId
-            };
-            
-            localStorage.setItem('inversionesJeroData', JSON.stringify(dataToSave));
-        }
-        
-        // Función para cargar datos desde localStorage
-        function loadData() {
-            const savedData = localStorage.getItem('inversionesJeroData');
-            
-            if (savedData) {
-                const parsedData = JSON.parse(savedData);
-                clientData = parsedData.clientData || [];
-                paymentData = parsedData.paymentData || [];
-                nextClientId = parsedData.nextClientId || 1;
-                nextLoanId = parsedData.nextLoanId || 1;
-                nextPaymentId = parsedData.nextPaymentId || 1;
-            }
-            
-            if (clientData.length === 0) {
-                initializeData();
-            } else {
-                renderAllTables();
-                loadClientDropdowns();
-                updateStats();
-            }
-        }
-        
-        // Función para mostrar u ocultar pestañas
-        function showTab(tabName) {
-            // Ocultar todos los contenidos de tabs
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Desactivar todos los tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Activar el tab seleccionado
-            const tabs = document.querySelectorAll('.tab');
-            for (let i = 0; i < tabs.length; i++) {
-                if (tabs[i].getAttribute('onclick').includes(tabName)) {
-                    tabs[i].classList.add('active');
-                    break;
-                }
-            }
-            
-            // Mostrar el contenido correspondiente
-            document.getElementById(`${tabName}-tab`).classList.add('active');
-            
-            // Actualizar datos específicos de la pestaña
-            if (tabName === 'payments') {
-                loadClientDropdowns();
-                document.getElementById('payment-date').valueAsDate = new Date();
-            } else if (tabName === 'clients') {
-                renderClientsTable();
-            } else if (tabName === 'loans') {
-                loadClientDropdowns();
-                document.getElementById('loan-date').valueAsDate = new Date();
-            } else if (tabName === 'backup') {
-                document.getElementById('data-export').value = JSON.stringify({
-                    clientData: clientData,
-                    paymentData: paymentData
-                }, null, 2);
-            }
-        }
-        
-        // Función para renderizar la tabla principal
-        function renderLoansTable() {
-            const tableBody = document.querySelector('#loans-table tbody');
-            tableBody.innerHTML = '';
-            
-            let totalLoans = 0;
-            
-            clientData.forEach(client => {
-                client.creditos.forEach(credito => {
-                    totalLoans++;
-                    
-                    const row = document.createElement('tr');
-                    
-                    // Determinar el estado
-                    let estado = '';
-                    if (credito.cuotasPagadas >= credito.cuotasTotales) {
-                        estado = '<span class="status-badge status-paid">Pagado</span>';
-                        credito.estado = 'completed';
-                    } else if (credito.cuotasPagadas === 0 && new Date() > new Date(credito.fechaInicio)) {
-                        estado = '<span class="status-badge status-overdue">Atrasado</span>';
-                        credito.estado = 'overdue';
-                    } else {
-                        estado = '<span class="status-badge status-active">Activo</span>';
-                        credito.estado = 'active';
+                        `;
                     }
-                    
-                    row.innerHTML = `
-                        <td>${client.nombre}</td>
-                        <td>${client.telefono}</td>
-                        <td>$${credito.capital.toLocaleString()}</td>
-                        <td>${formatDate(credito.fechaInicio)}</td>
-                        <td>${credito.cuotasTotales}</td>
-                        <td>${credito.cuotasPagadas}/${credito.cuotasTotales}</td>
-                        <td>$${credito.valorCuota.toLocaleString()}</td>
-                        <td>$${credito.saldoPendiente.toLocaleString()}</td>
-                        <td>${estado}</td>
+                } else {
+                    status = 'Completado';
+                    statusClass = 'badge-info';
+                }
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${c.nombre}</td>
+                        <td>$${l.capitalInicial.toFixed(2)}</td>
+                        <td>$${l.totalCredito.toFixed(2)}</td>
+                        <td>${l.cuotasTotales}</td>
+                        <td>${l.cuotasPagadas}</td>
+                        <td>$${l.saldoPendiente.toFixed(2)}</td>
                         <td>
-                            <button class="btn-sm" onclick="editLoan(${client.id}, ${credito.id})">
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
+                            <div class="loan-status">
+                                <span class="badge ${statusClass}">${status}</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
                         </td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-            });
-            
-            document.getElementById('loans-count').textContent = totalLoans;
-            
-            // Mostrar u ocultar estado vacío
-            if (totalLoans === 0) {
-                document.getElementById('loans-table-container').style.display = 'none';
-                document.getElementById('loans-empty').style.display = 'block';
-            } else {
-                document.getElementById('loans-table-container').style.display = 'block';
-                document.getElementById('loans-empty').style.display = 'none';
-            }
-        }
-        
-        // Función para renderizar la tabla de clientes
-        function renderClientsTable() {
-            const tableBody = document.querySelector('#clients-table tbody');
-            tableBody.innerHTML = '';
-            
-            clientData.forEach(client => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${client.nombre}</td>
-                    <td>${client.telefono}</td>
-                    <td>${client.direccion}</td>
-                    <td>${client.creditos.length}</td>
-                    <td>
-                        <button class="btn-sm" onclick="editClient(${client.id})">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                    </td>
+                        <td class="action-buttons">
+                            <button class="btn-sm" onclick="viewLoan(${c.id}, ${l.id})"><i class="fas fa-eye"></i></button>
+                            <button class="btn-sm btn-warning" onclick="editLoan(${c.id}, ${l.id})"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
                 `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Mostrar u ocultar estado vacío
-            if (clientData.length === 0) {
-                document.getElementById('clients-table-container').style.display = 'none';
-                document.getElementById('clients-empty').style.display = 'block';
-            } else {
-                document.getElementById('clients-table-container').style.display = 'block';
-                document.getElementById('clients-empty').style.display = 'none';
             }
-        }
-        
-        // Función para cargar dropdowns de clientes
-        function loadClientDropdowns() {
-            const paymentClient = document.getElementById('payment-client');
-            const loanClient = document.getElementById('loan-client');
-            
-            // Limpiar dropdowns
-            paymentClient.innerHTML = '<option value="">-- Seleccionar cliente --</option>';
-            loanClient.innerHTML = '<option value="">-- Seleccionar cliente --</option>';
-            
-            // Llenar dropdowns
-            clientData.forEach(client => {
-                paymentClient.innerHTML += `<option value="${client.id}">${client.nombre} - ${client.telefono}</option>`;
-                loanClient.innerHTML += `<option value="${client.id}">${client.nombre} - ${client.telefono}</option>`;
-            });
-        }
-        
-        // Función para cargar créditos de un cliente
-        function loadClientLoans() {
-            const clientId = document.getElementById('payment-client').value;
-            const loanSelect = document.getElementById('payment-loan');
-            
-            // Limpiar dropdown
-            loanSelect.innerHTML = '<option value="">-- Seleccionar crédito --</option>';
-            document.getElementById('loan-details').style.display = 'none';
-            
-            if (!clientId) return;
-            
-            // Encontrar cliente
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            // Llenar dropdown con créditos activos
-            client.creditos.forEach(credito => {
-                if (credito.estado === 'active' || credito.estado === 'overdue') {
-                    loanSelect.innerHTML += `<option value="${credito.id}">$${credito.capital.toLocaleString()} - ${credito.cuotasPagadas}/${credito.cuotasTotales} cuotas - Saldo: $${credito.saldoPendiente.toLocaleString()}</option>`;
-                }
-            });
-            
-            // Si hay créditos, seleccionar el primero y mostrar detalles
-            if (client.creditos.length > 0) {
-                loanSelect.value = client.creditos[0].id;
-                showLoanDetails(clientId, client.creditos[0].id);
-            }
-        }
-        
-        // Función para mostrar detalles del crédito
-        function showLoanDetails(clientId, loanId) {
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            const credito = client.creditos.find(c => c.id == loanId);
-            if (!credito) return;
-            
-            document.getElementById('detail-capital').textContent = `$${credito.capital.toLocaleString()}`;
-            document.getElementById('detail-installment').textContent = `$${credito.valorCuota.toLocaleString()}`;
-            document.getElementById('detail-paid').textContent = `${credito.cuotasPagadas}/${credito.cuotasTotales}`;
-            document.getElementById('detail-balance').textContent = `$${credito.saldoPendiente.toLocaleString()}`;
-            
-            // Calcular progreso
-            const progress = (credito.cuotasPagadas / credito.cuotasTotales) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-            
-            // Mostrar detalles
-            document.getElementById('loan-details').style.display = 'block';
-        }
-        
-        // Función para calcular cuotas basado en el monto de pago
-        function calculateInstallments() {
-            const clientId = document.getElementById('payment-client').value;
-            const loanId = document.getElementById('payment-loan').value;
-            const amount = parseFloat(document.getElementById('payment-amount').value);
-            
-            if (!clientId || !loanId || !amount || amount <= 0) {
-                document.getElementById('installment-calculation').style.display = 'none';
-                return;
-            }
-            
-            // Encontrar cliente y crédito
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            const credito = client.creditos.find(c => c.id == loanId);
-            if (!credito) return;
-            
-            // Calcular cuotas
-            const cuotasCompletas = Math.floor(amount / credito.valorCuota);
-            const resto = amount % credito.valorCuota;
-            
-            if (cuotasCompletas > 0) {
-                document.getElementById('installment-count').textContent = cuotasCompletas;
-                document.getElementById('installment-extra').textContent = `$${resto.toLocaleString()}`;
-                document.getElementById('installment-calculation').style.display = 'flex';
-            } else {
-                document.getElementById('installment-calculation').style.display = 'none';
-            }
-        }
-        
-        // Función para registrar un pago
-        function registerPayment() {
-            const clientId = document.getElementById('payment-client').value;
-            const loanId = document.getElementById('payment-loan').value;
-            const amount = parseFloat(document.getElementById('payment-amount').value);
-            const date = document.getElementById('payment-date').value;
-            const notes = document.getElementById('payment-notes').value;
-            
-            // Validaciones
-            if (!clientId || !loanId || !amount || !date) {
-                showToast('Por favor complete todos los campos obligatorios.', 'error');
-                return;
-            }
-            
-            if (amount <= 0) {
-                showToast('El monto del pago debe ser mayor a cero.', 'error');
-                return;
-            }
-            
-            // Encontrar cliente y crédito
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            const credito = client.creditos.find(c => c.id == loanId);
-            if (!credito) return;
-            
-            // Verificar que el pago no exceda el saldo pendiente
-            if (amount > credito.saldoPendiente) {
-                showToast('El monto del pago no puede ser mayor al saldo pendiente.', 'error');
-                return;
-            }
-            
-            // Calcular cuotas pagadas con este pago
-            const cuotasCompletas = Math.floor(amount / credito.valorCuota);
-            const resto = amount % credito.valorCuota;
-            
-            // Actualizar crédito
-            const saldoAnterior = credito.saldoPendiente;
-            credito.cuotasPagadas += cuotasCompletas;
-            credito.saldoPendiente -= amount;
-            
-            // Si el pago incluye un monto adicional para la siguiente cuota
-            if (resto > 0 && credito.saldoPendiente > 0) {
-                credito.saldoPendiente += resto; // Se devuelve el excedente
-            }
-            
-            // Verificar si el crédito está completamente pagado
-            if (credito.saldoPendiente <= 0) {
-                credito.saldoPendiente = 0;
-                credito.cuotasPagadas = credito.cuotasTotales;
-                credito.estado = 'completed';
-            }
-            
-            // Registrar pago
-            paymentData.push({
-                id: nextPaymentId++,
-                clientId: clientId,
-                loanId: loanId,
-                fecha: date,
-                monto: amount,
-                notas: notes,
-                cuotasCompletas: cuotasCompletas,
-                resto: resto
-            });
-            
-            // Guardar datos
-            saveData();
-            
-            // Mostrar comprobante
-            showReceipt(client, credito, amount, date, saldoAnterior);
-            
-            // Actualizar tablas y estadísticas
-            renderAllTables();
-            updateStats();
-            
-            // Mostrar notificación
-            showToast('Pago registrado correctamente.', 'success');
-        }
-        
-        // Función para mostrar comprobante
-        function showReceipt(client, credito, amount, date, saldoAnterior) {
-            document.getElementById('receipt-date').textContent = formatDate(date);
-            document.getElementById('receipt-client').textContent = client.nombre;
-            document.getElementById('receipt-amount').textContent = `$${amount.toLocaleString()}`;
-            document.getElementById('receipt-loan').textContent = `$${credito.capital.toLocaleString()} - ${credito.periodo}`;
-            document.getElementById('receipt-paid').textContent = `${credito.cuotasPagadas}/${credito.cuotasTotales}`;
-            document.getElementById('receipt-pending').textContent = `${credito.cuotasTotales - credito.cuotasPagadas} cuotas`;
-            document.getElementById('receipt-previous').textContent = `$${saldoAnterior.toLocaleString()}`;
-            document.getElementById('receipt-newbalance').textContent = `$${credito.saldoPendiente.toLocaleString()}`;
-            
-            // Mostrar comprobante
-            document.getElementById('payment-receipt').style.display = 'block';
-        }
-        
-        // Función para cerrar comprobante
-        function closeReceipt() {
-            document.getElementById('payment-receipt').style.display = 'none';
-            clearPaymentForm();
-        }
-        
-        // Función para imprimir comprobante
-        function printReceipt() {
-            const receiptContent = document.getElementById('payment-receipt').innerHTML;
-            const originalContent = document.body.innerHTML;
-            
-            document.body.innerHTML = receiptContent;
-            window.print();
-            document.body.innerHTML = originalContent;
-            
-            // Recargar la página para restaurar la funcionalidad
-            location.reload();
-        }
-        
-        // Función para limpiar formulario de pago
-        function clearPaymentForm() {
-            document.getElementById('payment-client').value = '';
-            document.getElementById('payment-loan').innerHTML = '<option value="">-- Seleccionar crédito --</option>';
-            document.getElementById('payment-amount').value = '';
-            document.getElementById('payment-date').valueAsDate = new Date();
-            document.getElementById('payment-notes').value = '';
-            document.getElementById('loan-details').style.display = 'none';
-            document.getElementById('installment-calculation').style.display = 'none';
-            document.getElementById('payment-receipt').style.display = 'none';
-        }
-        
-        // Función para agregar nuevo cliente
-        function addNewClient() {
-            const name = document.getElementById('new-client-name').value.trim();
-            const phone = document.getElementById('new-client-phone').value.trim();
-            const address = document.getElementById('new-client-address').value.trim();
-            const notes = document.getElementById('new-client-notes').value.trim();
-            
-            // Validaciones
-            if (!name || !phone) {
-                showToast('Por favor complete al menos el nombre y teléfono del cliente.', 'error');
-                return;
-            }
-            
-            // Crear nuevo cliente
-            const newClient = {
-                id: nextClientId++,
-                nombre: name,
-                telefono: phone,
-                direccion: address,
-                notas: notes,
-                creditos: []
-            };
-            
-            // Agregar cliente
-            clientData.push(newClient);
-            
-            // Guardar datos
-            saveData();
-            
-            // Actualizar interfaz
-            renderClientsTable();
-            loadClientDropdowns();
-            
-            // Limpiar formulario
-            document.getElementById('new-client-name').value = '';
-            document.getElementById('new-client-phone').value = '';
-            document.getElementById('new-client-address').value = '';
-            document.getElementById('new-client-notes').value = '';
-            
-            // Mostrar notificación
-            showToast('Cliente agregado correctamente.', 'success');
-        }
-        
-        // Función para limpiar formulario de cliente
-        function clearClientForm() {
-            document.getElementById('new-client-name').value = '';
-            document.getElementById('new-client-phone').value = '';
-            document.getElementById('new-client-address').value = '';
-            document.getElementById('new-client-notes').value = '';
-        }
-        
-        // Función para editar cliente
-        function editClient(clientId) {
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            // Llenar formulario de edición
-            document.getElementById('edit-client-id').value = client.id;
-            document.getElementById('edit-client-name').value = client.nombre;
-            document.getElementById('edit-client-phone').value = client.telefono;
-            document.getElementById('edit-client-address').value = client.direccion;
-            document.getElementById('edit-client-notes').value = client.notas;
-            
-            // Mostrar modal
-            showModal('edit-client-modal');
-        }
-        
-        // Función para guardar cambios de cliente
-        function saveClientChanges() {
-            const clientId = document.getElementById('edit-client-id').value;
-            const name = document.getElementById('edit-client-name').value.trim();
-            const phone = document.getElementById('edit-client-phone').value.trim();
-            const address = document.getElementById('edit-client-address').value.trim();
-            const notes = document.getElementById('edit-client-notes').value.trim();
-            
-            // Validaciones
-            if (!name || !phone) {
-                showToast('Por favor complete al menos el nombre y teléfono del cliente.', 'error');
-                return;
-            }
-            
-            // Encontrar cliente
-            const clientIndex = clientData.findIndex(c => c.id == clientId);
-            if (clientIndex === -1) return;
-            
-            // Actualizar cliente
-            clientData[clientIndex].nombre = name;
-            clientData[clientIndex].telefono = phone;
-            clientData[clientIndex].direccion = address;
-            clientData[clientIndex].notas = notes;
-            
-            // Guardar datos
-            saveData();
-            
-            // Actualizar interfaz
-            renderClientsTable();
-            loadClientDropdowns();
-            
-            // Cerrar modal
-            closeModal('edit-client-modal');
-            
-            // Mostrar notificación
-            showToast('Cliente actualizado correctamente.', 'success');
-        }
-        
-        // Función para agregar nuevo crédito
-        function addNewLoan() {
-            const clientId = document.getElementById('loan-client').value;
-            const amount = parseFloat(document.getElementById('loan-amount').value);
-            const date = document.getElementById('loan-date').value;
-            const installments = parseInt(document.getElementById('loan-installments').value);
-            const value = parseFloat(document.getElementById('loan-value').value);
-            const periodicity = document.getElementById('loan-periodicity').value;
-            const payday = document.getElementById('loan-payday').value;
-            
-            // Validaciones
-            if (!clientId || !amount || !date || !installments || !value || !payday) {
-                showToast('Por favor complete todos los campos obligatorios.', 'error');
-                return;
-            }
-            
-            if (amount <= 0 || installments <= 0 || value <= 0) {
-                showToast('Los valores deben ser mayores a cero.', 'error');
-                return;
-            }
-            
-            // Encontrar cliente
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            // Crear nuevo crédito
-            const newLoan = {
-                id: nextLoanId++,
-                fechaInicio: date,
-                capital: amount,
-                valorCuota: value,
-                cuotasTotales: installments,
-                cuotasPagadas: 0,
-                saldoPendiente: amount,
-                periodo: periodicity,
-                diaPago: payday,
-                estado: "active"
-            };
-            
-            // Agregar crédito al cliente
-            client.creditos.push(newLoan);
-            
-            // Guardar datos
-            saveData();
-            
-            // Actualizar interfaz
-            renderAllTables();
-            updateStats();
-            
-            // Limpiar formulario
-            document.getElementById('loan-amount').value = '';
-            document.getElementById('loan-installments').value = '';
-            document.getElementById('loan-value').value = '';
-            document.getElementById('loan-payday').value = '';
-            
-            // Mostrar notificación
-            showToast('Crédito agregado correctamente.', 'success');
-        }
-        
-        // Función para editar crédito
-        function editLoan(clientId, loanId) {
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            const credito = client.creditos.find(c => c.id == loanId);
-            if (!credito) return;
-            
-            // Llenar formulario de edición
-            document.getElementById('edit-loan-client-id').value = client.id;
-            document.getElementById('edit-loan-id').value = credito.id;
-            document.getElementById('edit-loan-client').value = client.nombre;
-            document.getElementById('edit-loan-amount').value = credito.capital;
-            document.getElementById('edit-loan-date').value = credito.fechaInicio;
-            document.getElementById('edit-loan-installments').value = credito.cuotasTotales;
-            document.getElementById('edit-loan-value').value = credito.valorCuota;
-            document.getElementById('edit-loan-paid').value = credito.cuotasPagadas;
-            document.getElementById('edit-loan-balance').value = credito.saldoPendiente;
-            document.getElementById('edit-loan-periodicity').value = credito.periodo;
-            document.getElementById('edit-loan-payday').value = credito.diaPago;
-            
-            // Mostrar modal
-            showModal('edit-loan-modal');
-        }
-        
-        // Función para guardar cambios de crédito
-        function saveLoanChanges() {
-            const clientId = document.getElementById('edit-loan-client-id').value;
-            const loanId = document.getElementById('edit-loan-id').value;
-            const amount = parseFloat(document.getElementById('edit-loan-amount').value);
-            const date = document.getElementById('edit-loan-date').value;
-            const installments = parseInt(document.getElementById('edit-loan-installments').value);
-            const value = parseFloat(document.getElementById('edit-loan-value').value);
-            const paid = parseInt(document.getElementById('edit-loan-paid').value);
-            const balance = parseFloat(document.getElementById('edit-loan-balance').value);
-            const periodicity = document.getElementById('edit-loan-periodicity').value;
-            const payday = document.getElementById('edit-loan-payday').value;
-            
-            // Validaciones
-            if (!amount || !date || !installments || !value || paid === undefined || !balance || !periodicity || !payday) {
-                showToast('Por favor complete todos los campos obligatorios.', 'error');
-                return;
-            }
-            
-            if (amount <= 0 || installments <= 0 || value <= 0 || paid < 0 || balance < 0) {
-                showToast('Los valores deben ser válidos.', 'error');
-                return;
-            }
-            
-            if (paid > installments) {
-                showToast('Las cuotas pagadas no pueden ser mayores al total de cuotas.', 'error');
-                return;
-            }
-            
-            // Encontrar cliente y crédito
-            const client = clientData.find(c => c.id == clientId);
-            if (!client) return;
-            
-            const creditoIndex = client.creditos.findIndex(c => c.id == loanId);
-            if (creditoIndex === -1) return;
-            
-            // Actualizar crédito
-            client.creditos[creditoIndex].capital = amount;
-            client.creditos[creditoIndex].fechaInicio = date;
-            client.creditos[creditoIndex].cuotasTotales = installments;
-            client.creditos[creditoIndex].valorCuota = value;
-            client.creditos[creditoIndex].cuotasPagadas = paid;
-            client.creditos[creditoIndex].saldoPendiente = balance;
-            client.creditos[creditoIndex].periodo = periodicity;
-            client.creditos[creditoIndex].diaPago = payday;
-            
-            // Actualizar estado
-            if (paid >= installments) {
-                client.creditos[creditoIndex].estado = 'completed';
-            } else if (paid === 0 && new Date() > new Date(date)) {
-                client.creditos[creditoIndex].estado = 'overdue';
-            } else {
-                client.creditos[creditoIndex].estado = 'active';
-            }
-            
-            // Guardar datos
-            saveData();
-            
-            // Actualizar interfaz
-            renderAllTables();
-            updateStats();
-            
-            // Cerrar modal
-            closeModal('edit-loan-modal');
-            
-            // Mostrar notificación
-            showToast('Crédito actualizado correctamente.', 'success');
-        }
-        
-        // Función para formatear fecha
-        function formatDate(dateString) {
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('es-ES', options);
-        }
-        
-        // Función para actualizar estadísticas
-        function updateStats() {
-            let totalCapital = 0;
-            let totalLoans = 0;
-            let totalPending = 0;
-            let totalOverdue = 0;
-            
-            clientData.forEach(client => {
-                client.creditos.forEach(credito => {
-                    totalLoans++;
-                    totalCapital += credito.capital;
-                    
-                    if (credito.estado === 'active' || credito.estado === 'overdue') {
-                        totalPending += (credito.cuotasTotales - credito.cuotasPagadas);
-                    }
-                    
-                    if (credito.estado === 'overdue') {
-                        totalOverdue++;
-                    }
-                });
-            });
-            
-            document.getElementById('total-capital').textContent = `$${totalCapital.toLocaleString()}`;
-            document.getElementById('total-loans').textContent = totalLoans;
-            document.getElementById('total-pending').textContent = totalPending;
-            document.getElementById('total-overdue').textContent = totalOverdue;
-        }
-        
-        // Función para exportar datos
-        function exportData() {
-            const dataStr = JSON.stringify({
-                clientData: clientData,
-                paymentData: paymentData
-            }, null, 2);
-            
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            const exportFileDefaultName = 'inversiones_jero_backup.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showToast('Datos exportados correctamente.', 'success');
-        }
-        
-        // Función para importar datos
-        function importData() {
-            const fileInput = document.getElementById('import-file');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                showToast('Por favor selecciona un archivo de respaldo.', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (data && data.clientData) {
-                        if (confirm('¿Está seguro de que desea importar estos datos? Se sobrescribirán los datos actuales.')) {
-                            clientData = data.clientData;
-                            paymentData = data.paymentData || [];
-                            
-                            // Actualizar IDs
-                            nextClientId = Math.max(...clientData.map(c => c.id)) + 1;
-                            nextLoanId = Math.max(...clientData.flatMap(c => c.creditos.map(l => l.id))) + 1;
-                            nextPaymentId = paymentData.length > 0 ? Math.max(...paymentData.map(p => p.id)) + 1 : 1;
-                            
-                            // Guardar datos
-                            saveData();
-                            
-                            // Actualizar interfaz
-                            renderAllTables();
-                            loadClientDropdowns();
-                            updateStats();
-                            
-                            showToast('Datos importados correctamente.', 'success');
-                        }
-                    } else {
-                        showToast('El archivo seleccionado no contiene datos válidos.', 'error');
-                    }
-                } catch (error) {
-                    showToast('Error al importar datos: ' + error.message, 'error');
-                }
-            };
-            reader.readAsText(file);
-        }
-        
-        // Función para copiar datos al portapapeles
-        function copyData() {
-            const textarea = document.getElementById('data-export');
-            textarea.select();
-            document.execCommand('copy');
-            showToast('Datos copiados al portapapeles. Puede pegarlos en otro dispositivo.', 'success');
-        }
-        
-        // Función para importar datos manualmente
-        function importManualData() {
-            const dataStr = document.getElementById('data-import').value;
-            
-            if (!dataStr) {
-                showToast('No hay datos para importar.', 'error');
-                return;
-            }
-            
-            try {
-                const data = JSON.parse(dataStr);
-                
-                if (data && data.clientData) {
-                    if (confirm('¿Está seguro de que desea importar estos datos? Se sobrescribirán los datos actuales.')) {
-                        clientData = data.clientData;
-                        paymentData = data.paymentData || [];
-                        
-                        // Actualizar IDs
-                        nextClientId = Math.max(...clientData.map(c => c.id)) + 1;
-                        nextLoanId = Math.max(...clientData.flatMap(c => c.creditos.map(l => l.id))) + 1;
-                        nextPaymentId = paymentData.length > 0 ? Math.max(...paymentData.map(p => p.id)) + 1 : 1;
-                        
-                        // Guardar datos
-                        saveData();
-                        
-                        // Actualizar interfaz
-                        renderAllTables();
-                        loadClientDropdowns();
-                        updateStats();
-                        
-                        showToast('Datos importados correctamente.', 'success');
-                    }
-                } else {
-                    showToast('Los datos no son válidos.', 'error');
-                }
-            } catch (error) {
-                showToast('Error al importar datos: ' + error.message, 'error');
-            }
-        }
-        
-        // Función para procesar datos importados desde tabla
-        function processImportedData() {
-            const importData = document.getElementById('import-data').value.trim();
-            
-            if (!importData) {
-                showToast('Por favor pegue los datos de la tabla.', 'error');
-                return;
-            }
-            
-            try {
-                // Parsear datos de la tabla
-                const rows = importData.split('\n');
-                if (rows.length < 2) {
-                    showToast('Los datos no tienen el formato correcto.', 'error');
-                    return;
-                }
-                
-                // Obtener encabezados
-                const headers = rows[0].split('\t');
-                
-                // Procesar filas de datos
-                importedData = [];
-                for (let i = 1; i < rows.length; i++) {
-                    const cells = rows[i].split('\t');
-                    if (cells.length === headers.length) {
-                        const rowData = {};
-                        for (let j = 0; j < headers.length; j++) {
-                            rowData[headers[j].trim().toLowerCase()] = cells[j].trim();
-                        }
-                        importedData.push(rowData);
-                    }
-                }
-                
-                if (importedData.length === 0) {
-                    showToast('No se pudieron procesar los datos.', 'error');
-                    return;
-                }
-                
-                // Generar vista previa
-                generateImportPreview();
-                
-                // Mostrar vista previa
-                document.getElementById('import-preview').style.display = 'block';
-                
-            } catch (error) {
-                showToast('Error al procesar los datos: ' + error.message, 'error');
-            }
-        }
-        
-        // Función para generar vista previa de importación
-        function generateImportPreview() {
-            const previewContainer = document.getElementById('import-preview-table');
-            previewContainer.innerHTML = '';
-            
-            if (importedData.length === 0) return;
-            
-            // Crear tabla de vista previa
-            const table = document.createElement('table');
-            table.className = 'import-table';
-            
-            // Crear encabezados
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            Object.keys(importedData[0]).forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key.charAt(0).toUpperCase() + key.slice(1);
-                headerRow.appendChild(th);
-            });
-            
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            
-            // Crear cuerpo de la tabla
-            const tbody = document.createElement('tbody');
-            
-            importedData.forEach(row => {
-                const tr = document.createElement('tr');
-                
-                Object.values(row).forEach(value => {
-                    const td = document.createElement('td');
-                    td.textContent = value;
-                    tr.appendChild(td);
-                });
-                
-                tbody.appendChild(tr);
-            });
-            
-            table.appendChild(tbody);
-            previewContainer.appendChild(table);
-        }
-        
-        // Función para confirmar importación de datos
-        function confirmImport() {
-            if (importedData.length === 0) {
-                showToast('No hay datos para importar.', 'error');
-                return;
-            }
-            
-            if (!confirm('¿Está seguro de que desea importar estos datos? Se sobrescribirán todos los datos actuales.')) {
-                return;
-            }
-            
-            try {
-                // Reiniciar datos
-                clientData = [];
-                paymentData = [];
-                nextClientId = 1;
-                nextLoanId = 1;
-                nextPaymentId = 1;
-                
-                // Procesar datos importados
-                const clientMap = {}; // Mapa para evitar clientes duplicados
-                
-                importedData.forEach(row => {
-                    const nombre = row.cliente || '';
-                    const telefono = row.telefono || '';
-                    const direccion = row.direccion || '';
-                    const fechaInicio = parseDate(row['fecha inicio']) || new Date().toISOString().split('T')[0];
-                    const capital = parseFloat(row.capital || '0');
-                    const valorCuota = parseFloat(row['valor cuota'] || '0');
-                    const cuotasTotales = parseInt(row['cantidad cuotas'] || '0');
-                    const cuotasPagadas = parseInt(row['cuotas pagas'] || '0');
-                    const periodo = row.periodo || 'semanal';
-                    const diaPago = row['dia pago'] || '';
-                    
-                    // Validar datos mínimos
-                    if (!nombre || !telefono || capital <= 0 || valorCuota <= 0 || cuotasTotales <= 0) {
-                        return; // Saltar fila inválida
-                    }
-                    
-                    // Crear o encontrar cliente
-                    const clientKey = `${nombre}-${telefono}`;
-                    let client = clientMap[clientKey];
-                    
-                    if (!client) {
-                        client = {
-                            id: nextClientId++,
-                            nombre: nombre,
-                            telefono: telefono,
-                            direccion: direccion,
-                            notas: '',
-                            creditos: []
-                        };
-                        clientMap[clientKey] = client;
-                        clientData.push(client);
-                    }
-                    
-                    // Calcular saldo pendiente
-                    const saldoPendiente = capital - (cuotasPagadas * valorCuota);
-                    
-                    // Determinar estado
-                    let estado = "active";
-                    if (cuotasPagadas >= cuotasTotales) {
-                        estado = "completed";
-                    } else if (cuotasPagadas === 0 && new Date() > new Date(fechaInicio)) {
-                        estado = "overdue";
-                    }
-                    
-                    // Agregar crédito
-                    client.creditos.push({
-                        id: nextLoanId++,
-                        fechaInicio: fechaInicio,
-                        capital: capital,
-                        valorCuota: valorCuota,
-                        cuotasTotales: cuotasTotales,
-                        cuotasPagadas: cuotasPagadas,
-                        saldoPendiente: Math.max(0, saldoPendiente),
-                        periodo: periodo,
-                        diaPago: diaPago,
-                        estado: estado
-                    });
-                });
-                
-                // Guardar datos
-                saveData();
-                
-                // Actualizar interfaz
-                renderAllTables();
-                loadClientDropdowns();
-                updateStats();
-                
-                // Ocultar vista previa
-                document.getElementById('import-preview').style.display = 'none';
-                document.getElementById('import-data').value = '';
-                
-                showToast('Datos importados correctamente.', 'success');
-                
-            } catch (error) {
-                showToast('Error al importar datos: ' + error.message, 'error');
-            }
-        }
-        
-        // Función para cancelar importación
-        function cancelImport() {
-            document.getElementById('import-preview').style.display = 'none';
-            importedData = [];
-        }
-        
-        // Función para limpiar formulario de importación
-        function clearImportForm() {
-            document.getElementById('import-data').value = '';
-            document.getElementById('import-preview').style.display = 'none';
-            importedData = [];
-        }
-        
-        // Función para parsear fecha desde diferentes formatos
-        function parseDate(dateString) {
-            if (!dateString) return null;
-            
-            // Intentar parsear formato ISO (YYYY-MM-DD)
-            let date = new Date(dateString);
-            if (!isNaN(date.getTime())) {
-                return date.toISOString().split('T')[0];
-            }
-            
-            // Intentar parsear formato español (DD/MM/YYYY o DD-MM-YYYY)
-            const parts = dateString.split(/[/-]/);
-            if (parts.length === 3) {
-                date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-                if (!isNaN(date.getTime())) {
-                    return date.toISOString().split('T')[0];
-                }
-            }
-            
-            // Intentar parsear formato textual (ej: "30 de agosto")
-            const months = {
-                'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
-                'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
-            };
-            
-            const match = dateString.match(/(\d+)\s+de\s+(\w+)/i);
-            if (match) {
-                const day = parseInt(match[1]);
-                const monthName = match[2].toLowerCase();
-                const month = months[monthName];
-                
-                if (day && month !== undefined) {
-                    const currentYear = new Date().getFullYear();
-                    date = new Date(currentYear, month, day);
-                    if (!isNaN(date.getTime())) {
-                        return date.toISOString().split('T')[0];
-                    }
-                }
-            }
-            
-            return null;
-        }
-        
-        // Función para mostrar modal
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-        
-        // Función para cerrar modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-        
-        // Función para mostrar notificación toast
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const icon = toast.querySelector('.icon');
-            const messageEl = toast.querySelector('.toast-message');
-            
-            // Configurar según el tipo
-            toast.className = 'toast';
-            toast.classList.add(type);
-            
-            if (type === 'success') {
-                icon.className = 'fas fa-check-circle icon';
-            } else if (type === 'error') {
-                icon.className = 'fas fa-exclamation-circle icon';
-            } else if (type === 'info') {
-                icon.className = 'fas fa-info-circle icon';
-            }
-            
-            messageEl.textContent = message;
-            
-            // Mostrar toast
-            toast.classList.add('show');
-            
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Función para filtrar préstamos
-        function filterLoans() {
-            const searchText = document.getElementById('search-client').value.toLowerCase();
-            const statusFilter = document.getElementById('filter-status').value;
-            
-            const tableBody = document.querySelector('#loans-table tbody');
-            const rows = tableBody.querySelectorAll('tr');
-            
-            rows.forEach(row => {
-                const clientName = row.cells[0].textContent.toLowerCase();
-                const clientPhone = row.cells[1].textContent.toLowerCase();
-                const status = row.cells[8].textContent.toLowerCase();
-                
-                const matchesSearch = clientName.includes(searchText) || clientPhone.includes(searchText);
-                const matchesStatus = statusFilter === 'all' || 
-                                    (statusFilter === 'active' && status.includes('activo')) ||
-                                    (statusFilter === 'overdue' && status.includes('atrasado')) ||
-                                    (statusFilter === 'completed' && status.includes('pagado'));
-                
-                if (matchesSearch && matchesStatus) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        // Función para filtrar clientes
-        function filterClients() {
-            const searchText = document.getElementById('search-clients').value.toLowerCase();
-            
-            const tableBody = document.querySelector('#clients-table tbody');
-            const rows = tableBody.querySelectorAll('tr');
-            
-            rows.forEach(row => {
-                const clientName = row.cells[0].textContent.toLowerCase();
-                const clientPhone = row.cells[1].textContent.toLowerCase();
-                const clientAddress = row.cells[2].textContent.toLowerCase();
-                
-                const matchesSearch = clientName.includes(searchText) || 
-                                    clientPhone.includes(searchText) || 
-                                    clientAddress.includes(searchText);
-                
-                if (matchesSearch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        // Función para renderizar todas las tablas
-        function renderAllTables() {
-            renderLoansTable();
-            renderClientsTable();
-        }
-        
-        // Inicializar la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            // Establecer fechas actuales por defecto
-            const today = new Date();
-            document.getElementById('payment-date').valueAsDate = today;
-            document.getElementById('loan-date').valueAsDate = today;
-            
-            // Cargar datos
-            loadData();
         });
-    </script>
+    });
+    
+    if (dueTbody.innerHTML === '') {
+        dueTbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay pagos próximos a vencer</td></tr>';
+    }
+}
+
+function filterLoans(query) {
+    const rows = document.querySelectorAll('#loans-table tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+    });
+}
+
+function loadClientLoans() {
+    const clientId = document.getElementById('payment-client').value;
+    const loanSel = document.getElementById('payment-loan');
+    const loanInfo = document.getElementById('loan-info');
+    
+    loanSel.innerHTML = '<option value="">Seleccionar crédito</option>';
+    loanInfo.innerHTML = '<p>Seleccione un crédito para ver los detalles</p>';
+    
+    if (!clientId) return;
+    
+    const client = clientData.find(c => c.id == clientId);
+    client.creditos.forEach(l => {
+        if (l.estado === 'Activo') {
+            loanSel.innerHTML += `<option value="${l.id}">Crédito #${l.id} - Saldo: $${l.saldoPendiente.toFixed(2)}</option>`;
+        }
+    });
+    
+    // Actualizar información cuando se selecciona un crédito
+    loanSel.onchange = function() {
+        const loanId = this.value;
+        if (!loanId) {
+            loanInfo.innerHTML = '<p>Seleccione un crédito para ver los detalles</p>';
+            return;
+        }
+        
+        const loan = client.creditos.find(l => l.id == loanId);
+        const progress = (loan.cuotasPagadas / loan.cuotasTotales) * 100;
+        
+        loanInfo.innerHTML = `
+            <h3>Detalles del Crédito</h3>
+            <p><strong>Capital inicial:</strong> $${loan.capitalInicial.toFixed(2)}</p>
+            <p><strong>Total del crédito:</strong> $${loan.totalCredito.toFixed(2)}</p>
+            <p><strong>Valor de cuota:</strong> $${loan.valorCuota.toFixed(2)}</p>
+            <p><strong>Cuotas pagadas:</strong> ${loan.cuotasPagadas} de ${loan.cuotasTotales}</p>
+            <p><strong>Saldo pendiente:</strong> $${loan.saldoPendiente.toFixed(2)}</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: ${progress}%"></div>
+            </div>
+        `;
+    };
+}
+
+// Funciones de pagos
+function registerPayment() {
+    const clientId = document.getElementById('payment-client').value;
+    const loanId = document.getElementById('payment-loan').value;
+    const amount = parseFloat(document.getElementById('payment-amount').value);
+    const date = document.getElementById('payment-date').value;
+    const notes = document.getElementById('payment-notes').value.trim();
+    
+    if (!clientId || !loanId || !amount || !date) {
+        showNotification('Por favor complete todos los campos obligatorios', 'error');
+        return;
+    }
+    
+    const client = clientData.find(c => c.id == clientId);
+    const loan = client.creditos.find(l => l.id == loanId);
+    
+    if (amount > loan.saldoPendiente) {
+        showNotification('El monto ingresado excede el saldo pendiente', 'error');
+        return;
+    }
+    
+    // Registrar pago
+    const payment = {
+        id: nextPaymentId++,
+        monto: amount,
+        fecha: date,
+        notas: notes
+    };
+    
+    loan.pagos.push(payment);
+    
+    // Actualizar estado del préstamo
+    const cuotasPagadasCompletas = Math.floor(amount / loan.valorCuota);
+    const pagoParcial = amount % loan.valorCuota;
+    
+    loan.cuotasPagadas += cuotasPagadasCompletas;
+    loan.saldoPendiente -= amount;
+    
+    if (loan.saldoPendiente <= 0) {
+        loan.saldoPendiente = 0;
+        loan.estado = 'Completado';
+    }
+    
+    // Si hay pago parcial, crear un registro especial
+    if (pagoParcial > 0) {
+        loan.pagos.push({
+            id: nextPaymentId++,
+            monto: pagoParcial,
+            fecha: date,
+            notas: 'Pago parcial para próxima cuota'
+        });
+    }
+    
+    saveData();
+    updateStats();
+    renderLoans();
+    renderPayments();
+    
+    // Limpiar formulario
+    document.getElementById('payment-amount').value = '';
+    document.getElementById('payment-notes').value = '';
+    
+    showNotification('Pago registrado correctamente');
+}
+
+function renderPayments() {
+    const tbody = document.querySelector('#payments-table tbody');
+    tbody.innerHTML = '';
+    
+    clientData.forEach(c => {
+        c.creditos.forEach(l => {
+            l.pagos.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.fecha}</td>
+                        <td>${c.nombre}</td>
+                        <td>$${p.monto.toFixed(2)}</td>
+                        <td>Crédito #${l.id}</td>
+                        <td>${p.notas || '-'}</td>
+                    </tr>
+                `;
+            });
+        });
+    });
+    
+    if (tbody.innerHTML === '') {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay pagos registrados</td></tr>';
+    }
+}
+
+function filterPayments(query) {
+    const rows = document.querySelectorAll('#payments-table tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+    });
+}
+
+// Funciones de estadísticas
+function updateStats() {
+    let totalSaldo = 0;
+    let totalClientes = clientData.length;
+    let totalCreditos = 0;
+    let creditosAtrasados = 0;
+    
+    clientData.forEach(c => {
+        c.creditos.forEach(l => {
+            if (l.estado === 'Activo') {
+                totalSaldo += l.saldoPendiente;
+                totalCreditos++;
+                
+                // Verificar si está atrasado
+                const startDate = new Date(l.fechaInicio);
+                const nextPaymentDate = new Date(startDate);
+                nextPaymentDate.setDate(startDate.getDate() + (l.cuotasPagadas * 30));
+                
+                if (nextPaymentDate < new Date() && l.cuotasPagadas < l.cuotasTotales) {
+                    creditosAtrasados++;
+                }
+            }
+        });
+    });
+    
+    const tasaMorosidad = totalCreditos > 0 ? (creditosAtrasados / totalCreditos * 100) : 0;
+    
+    document.getElementById('total-saldo').textContent = `$${totalSaldo.toFixed(2)}`;
+    document.getElementById('total-clientes').textContent = totalClientes;
+    document.getElementById('total-creditos').textContent = totalCreditos;
+    document.getElementById('tasa-morosidad').textContent = `${tasaMorosidad.toFixed(1)}%`;
+}
+
+// Funciones adicionales (placeholders)
+function viewClient(clientId) {
+    showNotification('Funcionalidad en desarrollo', 'warning');
+}
+
+function editClient(clientId) {
+    showNotification('Funcionalidad en desarrollo', 'warning');
+}
+
+function deleteClient(clientId) {
+    if (confirm('¿Está seguro de eliminar este cliente? Esta acción no se puede deshacer.')) {
+        const index = clientData.findIndex(c => c.id === clientId);
+        if (index !== -1) {
+            clientData.splice(index, 1);
+            saveData();
+            renderClients();
+            updateStats();
+            showNotification('Cliente eliminado correctamente');
+        }
+    }
+}
+
+function viewLoan(clientId, loanId) {
+    showNotification('Funcionalidad en desarrollo', 'warning');
+}
+
+function editLoan(clientId, loanId) {
+    showNotification('Funcionalidad en desarrollo', 'warning');
+}
+</script>
 </body>
 </html>
