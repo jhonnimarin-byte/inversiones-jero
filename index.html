@@ -149,16 +149,16 @@
             background: var(--primary);
         }
         
-        .stat-card.clientes::after {
-            background: var(--secondary);
-        }
-        
         .stat-card.creditos::after {
             background: var(--accent);
         }
         
         .stat-card.morosidad::after {
             background: var(--danger);
+        }
+        
+        .stat-card.cobros::after {
+            background: var(--success);
         }
         
         .card {
@@ -391,6 +391,37 @@
             display: none;
         }
         
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
         @media (max-width: 768px) {
             .tabs {
                 flex-direction: column;
@@ -413,6 +444,11 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
             }
         }
     </style>
@@ -440,11 +476,6 @@
             <div class="value" id="total-saldo">$0</div>
             <div class="detail">Monto total pendiente de cobro</div>
         </div>
-        <div class="stat-card clientes">
-            <h3><i class="fas fa-users"></i> Total Clientes</h3>
-            <div class="value" id="total-clientes">0</div>
-            <div class="detail">Clientes registrados en el sistema</div>
-        </div>
         <div class="stat-card creditos">
             <h3><i class="fas fa-file-invoice-dollar"></i> Créditos Activos</h3>
             <div class="value" id="total-creditos">0</div>
@@ -454,6 +485,44 @@
             <h3><i class="fas fa-exclamation-triangle"></i> Morosidad</h3>
             <div class="value" id="tasa-morosidad">0%</div>
             <div class="detail">Porcentaje de pagos atrasados</div>
+        </div>
+        <div class="stat-card cobros">
+            <h3><i class="fas fa-calendar-day"></i> Cobros Hoy</h3>
+            <div class="value" id="cobros-hoy">0</div>
+            <div class="detail">Créditos para cobrar hoy</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <span>Próximos Cobros</span>
+            <div>
+                <select id="filter-day" onchange="filterLoansByDay()">
+                    <option value="all">Todos los días</option>
+                    <option value="lunes">Lunes</option>
+                    <option value="martes">Martes</option>
+                    <option value="miercoles">Miércoles</option>
+                    <option value="jueves">Jueves</option>
+                    <option value="viernes">Viernes</option>
+                    <option value="sabado">Sábado</option>
+                    <option value="domingo">Domingo</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-container">
+            <table id="due-table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Próximo Cobro</th>
+                        <th>Monto</th>
+                        <th>Periodicidad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
     
@@ -475,25 +544,6 @@
                         <th>Periodicidad</th>
                         <th>Estado</th>
                         <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-header">
-            <span>Próximos Vencimientos</span>
-        </div>
-        <div class="table-container">
-            <table id="due-table">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Próximo Pago</th>
-                        <th>Monto</th>
-                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -638,7 +688,7 @@
             </div>
             <div class="form-group">
                 <label for="loan-periodicity">Periodicidad</label>
-                <select id="loan-periodicity">
+                <select id="loan-periodicity" onchange="togglePaymentDayField()">
                     <option value="diario">Diario</option>
                     <option value="semanal">Semanal</option>
                     <option value="quincenal">Quincenal</option>
@@ -648,10 +698,25 @@
         </div>
         
         <div class="form-row">
+            <div class="form-group" id="payment-day-container">
+                <label for="loan-payment-day">Día de cobro</label>
+                <select id="loan-payment-day">
+                    <option value="lunes">Lunes</option>
+                    <option value="martes">Martes</option>
+                    <option value="miercoles">Miércoles</option>
+                    <option value="jueves">Jueves</option>
+                    <option value="viernes">Viernes</option>
+                    <option value="sabado">Sábado</option>
+                    <option value="domingo">Domingo</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="loan-interest">Tasa de interés (% mensual)</label>
                 <input type="number" id="loan-interest" readonly>
             </div>
+        </div>
+        
+        <div class="form-row">
             <div class="form-group">
                 <label for="loan-status">Estado del crédito</label>
                 <select id="loan-status">
@@ -659,17 +724,15 @@
                     <option value="Inactivo">Inactivo</option>
                 </select>
             </div>
-        </div>
-        
-        <div class="form-row">
             <div class="form-group">
                 <label for="loan-total">Total a pagar ($)</label>
                 <input type="number" id="loan-total" placeholder="0.00" readonly>
             </div>
-            <div class="form-group">
-                <label for="loan-notes">Notas (opcional)</label>
-                <input type="text" id="loan-notes" placeholder="Observaciones del crédito">
-            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="loan-notes">Notas (opcional)</label>
+            <input type="text" id="loan-notes" placeholder="Observaciones del crédito">
         </div>
         
         <div class="form-group">
@@ -704,6 +767,15 @@
     </div>
 </div>
 
+<!-- Modal para ver detalles del crédito -->
+<div id="loan-detail-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('loan-detail-modal')">&times;</span>
+        <h2>Detalles del Crédito</h2>
+        <div id="loan-detail-content"></div>
+    </div>
+</div>
+
 <div id="notification" class="notification">
     <i class="fas fa-check-circle"></i>
     <span id="notification-text"></span>
@@ -723,6 +795,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('payment-date').value = today;
     document.getElementById('loan-date').value = today;
+    
+    // Ocultar campo de día de pago inicialmente
+    document.getElementById('payment-day-container').classList.add('hidden');
     
     // Cargar datos guardados
     loadData();
@@ -761,7 +836,6 @@ function loadData() {
 function showTab(tab) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(tab + '-tab').classList.add('active');
     
     // Encontrar la pestaña clickeada y activarla
     const tabs = document.querySelectorAll('.tab');
@@ -773,6 +847,8 @@ function showTab(tab) {
         }
     }
     
+    document.getElementById(tab + '-tab').classList.add('active');
+    
     // Acciones específicas por pestaña
     if (tab === 'clients') {
         renderClients();
@@ -782,6 +858,10 @@ function showTab(tab) {
     }
     if (tab === 'history') {
         renderPayments();
+    }
+    if (tab === 'dashboard') {
+        updateStats();
+        renderLoans();
     }
 }
 
@@ -879,7 +959,18 @@ function loadClientDropdowns() {
     });
 }
 
-// Funciones de préstamos - CORREGIDO: Cálculo preciso de tasa de interés
+// Funciones de préstamos
+function togglePaymentDayField() {
+    const periodicity = document.getElementById('loan-periodicity').value;
+    const paymentDayContainer = document.getElementById('payment-day-container');
+    
+    if (periodicity === 'semanal' || periodicity === 'quincenal') {
+        paymentDayContainer.classList.remove('hidden');
+    } else {
+        paymentDayContainer.classList.add('hidden');
+    }
+}
+
 function calculateInterestFromInstallment() {
     const capital = parseFloat(document.getElementById('loan-capital').value) || 0;
     const installments = parseInt(document.getElementById('loan-installments').value) || 0;
@@ -899,33 +990,35 @@ function calculateInterestFromInstallment() {
     }
 }
 
-// Función corregida para calcular la tasa de interés
 function calculateInterestRate(capital, total, installments) {
-    // Fórmula simplificada para calcular la tasa de interés aproximada
-    // Tasa = ((Total / Capital) - 1) * (12 / installments) * 100
-    
     if (capital <= 0 || installments <= 0) return 0;
     
+    // Fórmula para calcular la tasa de interés mensual aproximada
     const totalInterest = total - capital;
-    const monthlyRate = totalInterest / (capital * installments);
-    const annualRate = monthlyRate * 12 * 100;
-    
-    return annualRate;
+    const monthlyRate = (totalInterest / capital) / installments;
+    return monthlyRate * 100;
 }
 
 function addNewLoan() {
-    const clientId = document.getElementById('loan-client').value;
+    const clientId = parseInt(document.getElementById('loan-client').value);
     const capital = parseFloat(document.getElementById('loan-capital').value);
     const installments = parseInt(document.getElementById('loan-installments').value);
     const installmentValue = parseFloat(document.getElementById('loan-value').value);
     const interest = parseFloat(document.getElementById('loan-interest').value);
     const periodicity = document.getElementById('loan-periodicity').value;
+    const paymentDay = document.getElementById('loan-payment-day').value;
     const status = document.getElementById('loan-status').value;
     const startDate = document.getElementById('loan-date').value;
     const notes = document.getElementById('loan-notes').value.trim();
     
-    if (!clientId || !capital || !installments || !installmentValue) {
+    if (!clientId || isNaN(clientId) || !capital || !installments || !installmentValue) {
         showNotification('Por favor complete todos los campos obligatorios', 'error');
+        return;
+    }
+    
+    const client = clientData.find(c => c.id === clientId);
+    if (!client) {
+        showNotification('Cliente no encontrado', 'error');
         return;
     }
     
@@ -938,6 +1031,7 @@ function addNewLoan() {
         cuotasTotales: installments,
         valorCuota: installmentValue,
         periodicidad: periodicity,
+        diaCobro: (periodicity === 'semanal' || periodicity === 'quincenal') ? paymentDay : '',
         estado: status,
         cuotasPagadas: 0,
         saldoPendiente: total,
@@ -947,7 +1041,6 @@ function addNewLoan() {
         pagos: []
     };
     
-    const client = clientData.find(c => c.id == clientId);
     client.creditos.push(loan);
     
     saveData();
@@ -971,10 +1064,10 @@ function renderLoans() {
     tbody.innerHTML = '';
     dueTbody.innerHTML = '';
     
-    // Calcular próximos vencimientos (próximos 7 días)
+    // Calcular próximos vencimientos
     const today = new Date();
-    const nextWeek = new Date();
-    nextWeek.setDate(today.getDate() + 7);
+    const todayDayName = getDayName(today.getDay());
+    let cobrosHoy = 0;
     
     clientData.forEach(c => {
         c.creditos.forEach(l => {
@@ -995,23 +1088,46 @@ function renderLoans() {
                     const nextPaymentDate = new Date(startDate);
                     nextPaymentDate.setDate(startDate.getDate() + (l.cuotasPagadas * daysPerInstallment));
                     
+                    // Verificar si es para cobrar hoy
+                    let cobroHoy = false;
+                    let proximoCobro = '';
+                    
+                    if (l.periodicidad === 'semanal' || l.periodicidad === 'quincenal') {
+                        proximoCobro = l.diaCobro;
+                        if (l.diaCobro === todayDayName) {
+                            cobroHoy = true;
+                            cobrosHoy++;
+                        }
+                    } else if (l.periodicidad === 'mensual') {
+                        proximoCobro = formatDate(nextPaymentDate);
+                        if (isToday(nextPaymentDate)) {
+                            cobroHoy = true;
+                            cobrosHoy++;
+                        }
+                    }
+                    
                     if (nextPaymentDate < today) {
                         status = 'Atrasado';
                         statusClass = 'badge-danger';
-                    } else if (nextPaymentDate <= nextWeek) {
-                        status = 'Próximo a vencer';
+                    } else if (cobroHoy) {
+                        status = 'Para cobrar hoy';
                         statusClass = 'badge-warning';
-                        
-                        // Agregar a la tabla de vencimientos
-                        dueTbody.innerHTML += `
-                            <tr>
-                                <td>${c.nombre}</td>
-                                <td>${nextPaymentDate.toLocaleDateString()}</td>
-                                <td>$${l.valorCuota.toFixed(2)}</td>
-                                <td><span class="badge ${statusClass}">${status}</span></td>
-                            </tr>
-                        `;
                     }
+                    
+                    // Agregar a la tabla de vencimientos
+                    dueTbody.innerHTML += `
+                        <tr>
+                            <td>${c.nombre}</td>
+                            <td>${proximoCobro}</td>
+                            <td>$${l.valorCuota.toFixed(2)}</td>
+                            <td>${l.periodicidad.charAt(0).toUpperCase() + l.periodicidad.slice(1)}</td>
+                            <td><span class="badge ${statusClass}">${status}</span></td>
+                            <td class="action-buttons">
+                                <button class="btn-sm" onclick="viewLoanDetails(${c.id}, ${l.id})"><i class="fas fa-eye"></i></button>
+                                <button class="btn-sm btn-warning" onclick="editLoan(${c.id}, ${l.id})"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                    `;
                 } else {
                     status = 'Completado';
                     statusClass = 'badge-info';
@@ -1040,7 +1156,7 @@ function renderLoans() {
                         </div>
                     </td>
                     <td class="action-buttons">
-                        <button class="btn-sm" onclick="viewLoan(${c.id}, ${l.id})"><i class="fas fa-eye"></i></button>
+                        <button class="btn-sm" onclick="viewLoanDetails(${c.id}, ${l.id})"><i class="fas fa-eye"></i></button>
                         <button class="btn-sm btn-warning" onclick="editLoan(${c.id}, ${l.id})"><i class="fas fa-edit"></i></button>
                         <button class="btn-sm ${l.estado === 'Activo' ? 'btn-danger' : 'btn-success'}" onclick="toggleLoanStatus(${c.id}, ${l.id})">
                             <i class="fas ${l.estado === 'Activo' ? 'fa-pause' : 'fa-play'}"></i>
@@ -1051,8 +1167,11 @@ function renderLoans() {
         });
     });
     
+    // Actualizar contador de cobros hoy
+    document.getElementById('cobros-hoy').textContent = cobrosHoy;
+    
     if (dueTbody.innerHTML === '') {
-        dueTbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay pagos próximos a vencer</td></tr>';
+        dueTbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay pagos próximos a vencer</td></tr>';
     }
 }
 
@@ -1064,8 +1183,115 @@ function filterLoans(query) {
     });
 }
 
+function filterLoansByDay() {
+    const selectedDay = document.getElementById('filter-day').value;
+    const rows = document.querySelectorAll('#due-table tbody tr');
+    
+    rows.forEach(row => {
+        if (selectedDay === 'all') {
+            row.style.display = '';
+        } else {
+            const dayCell = row.cells[1].textContent.toLowerCase();
+            row.style.display = dayCell.includes(selectedDay) ? '' : 'none';
+        }
+    });
+}
+
+function getDayName(dayIndex) {
+    const days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+    return days[dayIndex];
+}
+
+function isToday(date) {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+}
+
+function formatDate(date) {
+    return date.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+}
+
+function viewLoanDetails(clientId, loanId) {
+    const client = clientData.find(c => c.id === clientId);
+    const loan = client.creditos.find(l => l.id === loanId);
+    
+    const modalContent = document.getElementById('loan-detail-content');
+    modalContent.innerHTML = `
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cliente:</label>
+                <p><strong>${client.nombre}</strong></p>
+            </div>
+            <div class="form-group">
+                <label>Estado:</label>
+                <p><span class="badge ${loan.estado === 'Activo' ? 'badge-success' : 'badge-inactive'}">${loan.estado}</span></p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Fecha de inicio:</label>
+                <p>${loan.fechaInicio}</p>
+            </div>
+            <div class="form-group">
+                <label>Capital inicial:</label>
+                <p>$${loan.capitalInicial.toFixed(2)}</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cantidad de cuotas:</label>
+                <p>${loan.cuotasTotales}</p>
+            </div>
+            <div class="form-group">
+                <label>Cuotas pagadas:</label>
+                <p>${loan.cuotasPagadas}</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Saldo pendiente:</label>
+                <p>$${loan.saldoPendiente.toFixed(2)}</p>
+            </div>
+            <div class="form-group">
+                <label>Valor de cuota:</label>
+                <p>$${loan.valorCuota.toFixed(2)}</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Periodicidad:</label>
+                <p>${loan.periodicidad.charAt(0).toUpperCase() + loan.periodicidad.slice(1)}</p>
+            </div>
+            ${loan.diaCobro ? `
+            <div class="form-group">
+                <label>Día de cobro:</label>
+                <p>${loan.diaCobro.charAt(0).toUpperCase() + loan.diaCobro.slice(1)}</p>
+            </div>
+            ` : ''}
+        </div>
+        ${loan.notas ? `
+        <div class="form-group">
+            <label>Notas:</label>
+            <p>${loan.notas}</p>
+        </div>
+        ` : ''}
+    `;
+    
+    document.getElementById('loan-detail-modal').style.display = 'flex';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
 function loadClientLoans() {
-    const clientId = document.getElementById('payment-client').value;
+    const clientId = parseInt(document.getElementById('payment-client').value);
     const loanSel = document.getElementById('payment-loan');
     const loanInfo = document.getElementById('loan-info');
     const loanContainer = document.getElementById('payment-loan-container');
@@ -1073,9 +1299,11 @@ function loadClientLoans() {
     loanSel.innerHTML = '<option value="">Seleccionar crédito</option>';
     loanInfo.innerHTML = '<p>Seleccione un crédito para ver los detalles</p>';
     
-    if (!clientId) return;
+    if (!clientId || isNaN(clientId)) return;
     
-    const client = clientData.find(c => c.id == clientId);
+    const client = clientData.find(c => c.id === clientId);
+    if (!client) return;
+    
     const activeLoans = client.creditos.filter(l => l.estado === 'Activo');
     
     // Mostrar u ocultar selector de crédito según la cantidad de créditos activos
@@ -1095,14 +1323,16 @@ function loadClientLoans() {
     
     // Actualizar información cuando se selecciona un crédito
     loanSel.onchange = function() {
-        const loanId = this.value;
-        if (!loanId) {
+        const loanId = parseInt(this.value);
+        if (!loanId || isNaN(loanId)) {
             loanInfo.innerHTML = '<p>Seleccione un crédito para ver los detalles</p>';
             return;
         }
         
-        const loan = client.creditos.find(l => l.id == loanId);
-        updateLoanInfo(loan);
+        const loan = client.creditos.find(l => l.id === loanId);
+        if (loan) {
+            updateLoanInfo(loan);
+        }
     };
 }
 
@@ -1115,6 +1345,7 @@ function updateLoanInfo(loan) {
         <p><strong>Total del crédito:</strong> $${loan.totalCredito.toFixed(2)}</p>
         <p><strong>Valor de cuota:</strong> $${loan.valorCuota.toFixed(2)}</p>
         <p><strong>Periodicidad:</strong> ${loan.periodicidad.charAt(0).toUpperCase() + loan.periodicidad.slice(1)}</p>
+        ${loan.diaCobro ? `<p><strong>Día de cobro:</strong> ${loan.diaCobro.charAt(0).toUpperCase() + loan.diaCobro.slice(1)}</p>` : ''}
         <p><strong>Cuotas pagadas:</strong> ${loan.cuotasPagadas} de ${loan.cuotasTotales}</p>
         <p><strong>Saldo pendiente:</strong> $${loan.saldoPendiente.toFixed(2)}</p>
         <div class="progress-bar">
@@ -1125,31 +1356,40 @@ function updateLoanInfo(loan) {
 
 // Funciones de pagos
 function registerPayment() {
-    const clientId = document.getElementById('payment-client').value;
-    let loanId = document.getElementById('payment-loan').value;
+    const clientId = parseInt(document.getElementById('payment-client').value);
+    let loanId = parseInt(document.getElementById('payment-loan').value);
     const amount = parseFloat(document.getElementById('payment-amount').value);
     const date = document.getElementById('payment-date').value;
     const notes = document.getElementById('payment-notes').value.trim();
     
-    if (!clientId || !amount || !date) {
+    if (!clientId || isNaN(clientId) || !amount || !date) {
         showNotification('Por favor complete todos los campos obligatorios', 'error');
         return;
     }
     
-    const client = clientData.find(c => c.id == clientId);
+    const client = clientData.find(c => c.id === clientId);
+    if (!client) {
+        showNotification('Cliente no encontrado', 'error');
+        return;
+    }
+    
     const activeLoans = client.creditos.filter(l => l.estado === 'Activo');
     
     // Si solo hay un crédito activo, usar ese
-    if (activeLoans.length === 1 && !loanId) {
+    if (activeLoans.length === 1 && (isNaN(loanId) || loanId === 0)) {
         loanId = activeLoans[0].id;
     }
     
-    if (!loanId) {
+    if (!loanId || isNaN(loanId)) {
         showNotification('Debe seleccionar un crédito', 'error');
         return;
     }
     
-    const loan = client.creditos.find(l => l.id == loanId);
+    const loan = client.creditos.find(l => l.id === loanId);
+    if (!loan) {
+        showNotification('Crédito no encontrado', 'error');
+        return;
+    }
     
     if (amount > loan.saldoPendiente) {
         showNotification('El monto ingresado excede el saldo pendiente', 'error');
@@ -1236,7 +1476,6 @@ function filterPayments(query) {
 // Funciones de estadísticas
 function updateStats() {
     let totalSaldo = 0;
-    let totalClientes = clientData.length;
     let totalCreditos = 0;
     let creditosAtrasados = 0;
     
@@ -1266,7 +1505,6 @@ function updateStats() {
     const tasaMorosidad = totalCreditos > 0 ? (creditosAtrasados / totalCreditos * 100) : 0;
     
     document.getElementById('total-saldo').textContent = `$${totalSaldo.toFixed(2)}`;
-    document.getElementById('total-clientes').textContent = totalClientes;
     document.getElementById('total-creditos').textContent = totalCreditos;
     document.getElementById('tasa-morosidad').textContent = `${tasaMorosidad.toFixed(1)}%`;
 }
@@ -1293,10 +1531,6 @@ function deleteClient(clientId) {
     }
 }
 
-function viewLoan(clientId, loanId) {
-    showNotification('Funcionalidad en desarrollo', 'warning');
-}
-
 function editLoan(clientId, loanId) {
     showNotification('Funcionalidad en desarrollo', 'warning');
 }
@@ -1311,6 +1545,14 @@ function toggleLoanStatus(clientId, loanId) {
     updateStats();
     
     showNotification(`Crédito ${loan.estado === 'Activo' ? 'activado' : 'desactivado'} correctamente`);
+}
+
+// Cerrar modal al hacer clic fuera de él
+window.onclick = function(event) {
+    const modal = document.getElementById('loan-detail-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
 }
 </script>
 </body>
